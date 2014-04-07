@@ -8,46 +8,54 @@
 
 #import "AweMyScene.h"
 
+@interface AweMyScene ()
+{
+    SKNode *_backgroundNode;
+    SKNode *_midgroundNode;
+    SKNode *_foregroundNode;
+    SKNode *_hudNode;
+    SKNode *_player;
+}
+@end
+
 @implementation AweMyScene
 
--(id)initWithSize:(CGSize)size {    
+- (id) initWithSize:(CGSize)size
+{
     if (self = [super initWithSize:size]) {
-        /* Setup your scene here */
-        
-        self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
-        
-        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-        
-        myLabel.text = @"Hello, World!";
-        myLabel.fontSize = 30;
-        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                       CGRectGetMidY(self.frame));
-        
-        [self addChild:myLabel];
+        self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+        _backgroundNode = [self createBackgroundNode];
+        [self addChild:_backgroundNode];
+        _foregroundNode = [SKNode node];
+        [self addChild:_foregroundNode];
+        _player = [self createPlayer];
+        [_foregroundNode addChild:_player];
     }
     return self;
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    /* Called when a touch begins */
+- (SKNode *) createBackgroundNode
+{
+    SKNode *backgroundNode = [SKNode node];
     
-    for (UITouch *touch in touches) {
-        CGPoint location = [touch locationInNode:self];
-        
-        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
-        
-        sprite.position = location;
-        
-        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
-        
-        [sprite runAction:[SKAction repeatActionForever:action]];
-        
-        [self addChild:sprite];
+    for (int nodeCount = 0; nodeCount < 20; nodeCount++) {
+        NSString *backgroundImageName = [NSString stringWithFormat:@"Background%02d", nodeCount+1];
+        SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:backgroundImageName];
+        node.anchorPoint = CGPointMake(0.5f, 0.0f);
+        node.position = CGPointMake(160.0f, nodeCount*64.0f);
+        [backgroundNode addChild:node];
     }
+    return backgroundNode;
+    
 }
 
--(void)update:(CFTimeInterval)currentTime {
-    /* Called before each frame is rendered */
+- (SKNode *) createPlayer
+{
+    SKNode *playerNode = [SKNode node];
+    [playerNode setPosition:CGPointMake(160.0f, 80.0f)];
+    SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Player"];
+    [playerNode addChild:sprite];
+    return playerNode;
 }
 
 @end

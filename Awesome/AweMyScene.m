@@ -24,6 +24,7 @@
 {
     if (self = [super initWithSize:size]) {
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+        self.physicsWorld.gravity = CGVectorMake(0.0f, -2.0f);
         _backgroundNode = [self createBackgroundNode];
         [self addChild:_backgroundNode];
         _foregroundNode = [SKNode node];
@@ -55,6 +56,13 @@
     [playerNode setPosition:CGPointMake(160.0f, 80.0f)];
     SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Player"];
     [playerNode addChild:sprite];
+    playerNode.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:sprite.size.width/2];
+    playerNode.physicsBody.dynamic = YES;
+    playerNode.physicsBody.allowsRotation = NO;
+    playerNode.physicsBody.restitution = 1.0f;
+    playerNode.physicsBody.friction = 0.0f;
+    playerNode.physicsBody.angularDamping = 0.0f;
+    playerNode.physicsBody.linearDamping = 0.0f;
     return playerNode;
 }
 

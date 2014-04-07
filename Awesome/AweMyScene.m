@@ -72,4 +72,12 @@
     return playerNode;
 }
 
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (_player.physicsBody.dynamic) return;
+    [_tapToStartNode removeFromParent];
+    _player.physicsBody.dynamic = YES;
+    [_player.physicsBody applyImpulse:CGVectorMake(0.0f, 20.0f)];
+}
+
 @end

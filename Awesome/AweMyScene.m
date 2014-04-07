@@ -15,6 +15,7 @@
     SKNode *_foregroundNode;
     SKNode *_hudNode;
     SKNode *_player;
+    SKSpriteNode *_tapToStartNode;
 }
 @end
 
@@ -29,8 +30,13 @@
         [self addChild:_backgroundNode];
         _foregroundNode = [SKNode node];
         [self addChild:_foregroundNode];
+        _hudNode = [SKNode node];
+        [self addChild:_hudNode];
         _player = [self createPlayer];
         [_foregroundNode addChild:_player];
+        _tapToStartNode = [SKSpriteNode spriteNodeWithImageNamed:@"TapToStart"];
+        _tapToStartNode.position = CGPointMake(160, 180.0f);
+        [_hudNode addChild:_tapToStartNode];
     }
     return self;
 }
@@ -57,7 +63,7 @@
     SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Player"];
     [playerNode addChild:sprite];
     playerNode.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:sprite.size.width/2];
-    playerNode.physicsBody.dynamic = YES;
+    playerNode.physicsBody.dynamic = NO;
     playerNode.physicsBody.allowsRotation = NO;
     playerNode.physicsBody.restitution = 1.0f;
     playerNode.physicsBody.friction = 0.0f;

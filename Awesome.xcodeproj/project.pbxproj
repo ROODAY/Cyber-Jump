@@ -68,6 +68,9 @@
 		C161EDF218F31363001B77B4 /* Background20.png in Resources */ = {isa = PBXBuildFile; fileRef = C161EDC718F31363001B77B4 /* Background20.png */; };
 		C161EDF318F31363001B77B4 /* Background20@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C161EDC818F31363001B77B4 /* Background20@2x.png */; };
 		C161EDF418F31363001B77B4 /* Background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C161EDC918F31363001B77B4 /* Background@2x.png */; };
+		C181E2B118F5A395003E66EF /* GameObjectNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B018F5A395003E66EF /* GameObjectNode.m */; };
+		C181E2B418F5A46C003E66EF /* StarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B318F5A46C003E66EF /* StarNode.m */; };
+		C181E2B718F5AA36003E66EF /* PlatformNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B618F5AA36003E66EF /* PlatformNode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -148,6 +151,12 @@
 		C161EDC718F31363001B77B4 /* Background20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Background20.png; sourceTree = "<group>"; };
 		C161EDC818F31363001B77B4 /* Background20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Background20@2x.png"; sourceTree = "<group>"; };
 		C161EDC918F31363001B77B4 /* Background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Background@2x.png"; sourceTree = "<group>"; };
+		C181E2AF18F5A395003E66EF /* GameObjectNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObjectNode.h; sourceTree = "<group>"; };
+		C181E2B018F5A395003E66EF /* GameObjectNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObjectNode.m; sourceTree = "<group>"; };
+		C181E2B218F5A46C003E66EF /* StarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarNode.h; sourceTree = "<group>"; };
+		C181E2B318F5A46C003E66EF /* StarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarNode.m; sourceTree = "<group>"; };
+		C181E2B518F5AA36003E66EF /* PlatformNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformNode.h; sourceTree = "<group>"; };
+		C181E2B618F5AA36003E66EF /* PlatformNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlatformNode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +228,12 @@
 				C161ED9F18F31363001B77B4 /* Backgrounds */,
 				C13E11D918F3102600FCC88A /* AweMyScene.h */,
 				C13E11DA18F3102600FCC88A /* AweMyScene.m */,
+				C181E2AF18F5A395003E66EF /* GameObjectNode.h */,
+				C181E2B018F5A395003E66EF /* GameObjectNode.m */,
+				C181E2B218F5A46C003E66EF /* StarNode.h */,
+				C181E2B318F5A46C003E66EF /* StarNode.m */,
+				C181E2B518F5AA36003E66EF /* PlatformNode.h */,
+				C181E2B618F5AA36003E66EF /* PlatformNode.m */,
 				C13E11DC18F3102600FCC88A /* Spaceship.png */,
 				C13E11DE18F3102600FCC88A /* Images.xcassets */,
 				C13E11C518F3102500FCC88A /* Supporting Files */,
@@ -447,10 +462,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C181E2B718F5AA36003E66EF /* PlatformNode.m in Sources */,
+				C181E2B118F5A395003E66EF /* GameObjectNode.m in Sources */,
 				C13E11DB18F3102600FCC88A /* AweMyScene.m in Sources */,
 				C13E11D818F3102600FCC88A /* AweViewController.m in Sources */,
 				C13E11CF18F3102600FCC88A /* AweAppDelegate.m in Sources */,
 				C13E11CB18F3102500FCC88A /* main.m in Sources */,
+				C181E2B418F5A46C003E66EF /* StarNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

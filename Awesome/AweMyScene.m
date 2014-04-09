@@ -7,8 +7,17 @@
 //
 
 #import "AweMyScene.h"
+#import "StarNode.h"
+#import "GameObjectNode.h"
+#import "PlatformNode.h"
 
-@interface AweMyScene ()
+typedef NS_OPTIONS(uint32_t, CollisionCategory) {
+    CollisionCategoryPlayer     = 0x1 << 0,
+    CollisionCategoryStar       = 0x1 << 1,
+    CollisionCategoryPlatform   = 0x1 << 2,
+};
+
+@interface AweMyScene () <SKPhysicsContactDelegate>
 {
     SKNode *_backgroundNode;
     SKNode *_midgroundNode;
@@ -26,14 +35,26 @@
     if (self = [super initWithSize:size]) {
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
         self.physicsWorld.gravity = CGVectorMake(0.0f, -2.0f);
+        self.physicsWorld.contactDelegate = self;
+        
         _backgroundNode = [self createBackgroundNode];
         [self addChild:_backgroundNode];
+        
         _foregroundNode = [SKNode node];
         [self addChild:_foregroundNode];
+        
         _hudNode = [SKNode node];
         [self addChild:_hudNode];
+        
+        PlatformNode *platform = [self createPlatformAtPosition:CGPointMake(160, 320) ofType:PLATFORM_NORMAL];
+        [_foregroundNode addChild:platform];
+        
+        StarNode *star = [self createStarAtPosition:CGPointMake(160, 220) ofType:STAR_SPECIAL];
+        [_foregroundNode addChild:star];
+        
         _player = [self createPlayer];
         [_foregroundNode addChild:_player];
+        
         _tapToStartNode = [SKSpriteNode spriteNodeWithImageNamed:@"TapToStart"];
         _tapToStartNode.position = CGPointMake(160, 180.0f);
         [_hudNode addChild:_tapToStartNode];
@@ -69,6 +90,12 @@
     playerNode.physicsBody.friction = 0.0f;
     playerNode.physicsBody.angularDamping = 0.0f;
     playerNode.physicsBody.linearDamping = 0.0f;
+    
+    playerNode.physicsBody.usesPreciseCollisionDetection = YES;
+    playerNode.physicsBody.categoryBitMask = CollisionCategoryPlayer;
+    playerNode.physicsBody.collisionBitMask = 0;
+    playerNode.physicsBody.contactTestBitMask = CollisionCategoryStar | CollisionCategoryPlatform;
+    
     return playerNode;
 }
 
@@ -78,6 +105,63 @@
     [_tapToStartNode removeFromParent];
     _player.physicsBody.dynamic = YES;
     [_player.physicsBody applyImpulse:CGVectorMake(0.0f, 20.0f)];
+}
+- (StarNode *) createStarAtPosition:(CGPoint)position ofType:(StarType)type
+{
+    StarNode *node = [StarNode node];
+    [node setPosition:position];
+    [node setName:@"NODE_STAR"];
+    
+    [node setStarType:type];
+    SKSpriteNode *sprite;
+    if (type == STAR_SPECIAL) {
+        sprite = [SKSpriteNode spriteNodeWithImageNamed:@"StarSpecial"];
+    } else {
+        sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Star"];
+    }
+    [node addChild:sprite];
+    
+    node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:sprite.size.width/2];
+    node.physicsBody.dynamic = NO;
+    
+    node.physicsBody.categoryBitMask = CollisionCategoryStar;
+    node.physicsBody.collisionBitMask = 0;
+    
+    return node;
+}
+
+- (PlatformNode *) createPlatformAtPosition:(CGPoint)position ofType:(PlatformType)type
+{
+    PlatformNode *node = [PlatformNode node];
+    [node setPosition:position];
+    [node setName:@"NODE_PLATFORM"];
+    [node setPlatformType:type];
+    
+    SKSpriteNode *sprite;
+    if (type == PLATFORM_BREAK) {
+        sprite = [SKSpriteNode spriteNodeWithImageNamed:@"PlatformBreak"];
+    } else {
+        sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Platform"];
+    }
+    [node addChild:sprite];
+    
+    node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
+    node.physicsBody.dynamic = NO;
+    node.physicsBody.categoryBitMask = CollisionCategoryPlatform;
+    node.physicsBody.collisionBitMask = 0;
+    
+    return node;
+}
+
+- (void) didBeginContact:(SKPhysicsContact *)contact
+{
+    BOOL updateHUD = NO;
+    SKNode *other = (contact.bodyA.node != _player) ? contact.bodyA.node : contact.bodyB.node;
+    updateHUD = [(GameObjectNode *)other collisionWithPlayer:_player];
+    
+    if (updateHUD) {
+        
+    }
 }
 
 @end

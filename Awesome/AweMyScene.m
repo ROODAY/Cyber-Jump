@@ -25,6 +25,7 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     SKNode *_hudNode;
     SKNode *_player;
     SKSpriteNode *_tapToStartNode;
+    int _endLevelY;
 }
 @end
 
@@ -40,17 +41,56 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
         _backgroundNode = [self createBackgroundNode];
         [self addChild:_backgroundNode];
         
+        _midgroundNode = [self createMidgroundNode];
+        [self addChild:_midgroundNode];
+        
         _foregroundNode = [SKNode node];
         [self addChild:_foregroundNode];
         
         _hudNode = [SKNode node];
         [self addChild:_hudNode];
         
-        PlatformNode *platform = [self createPlatformAtPosition:CGPointMake(160, 320) ofType:PLATFORM_NORMAL];
-        [_foregroundNode addChild:platform];
+        NSString *levelPlist = [[NSBundle mainBundle] pathForResource:@"Level01" ofType:@"plist"];
+        NSDictionary *levelData = [NSDictionary dictionaryWithContentsOfFile:levelPlist];
+        _endLevelY = [levelData[@"EndY"] intValue];
         
-        StarNode *star = [self createStarAtPosition:CGPointMake(160, 220) ofType:STAR_SPECIAL];
-        [_foregroundNode addChild:star];
+        NSDictionary *platforms = levelData[@"Platforms"];
+        NSDictionary *platformPatterns = platforms[@"Patterns"];
+        NSArray *platformPositions = platforms[@"Positions"];
+        for (NSDictionary *platformPosition in platformPositions) {
+            CGFloat patternX = [platformPosition[@"x"] floatValue];
+            CGFloat patternY = [platformPosition[@"y"] floatValue];
+            NSString *pattern = platformPosition[@"pattern"];
+            
+            NSArray *platformPattern = platformPatterns[pattern];
+            for (NSDictionary *platformPoint in platformPattern) {
+                CGFloat x = [platformPoint[@"x"] floatValue];
+                CGFloat y = [platformPoint[@"y"] floatValue];
+                PlatformType type = [platformPoint[@"type"] intValue];
+                
+                PlatformNode *platformNode = [self createPlatformAtPosition:CGPointMake(x +  patternX, y + patternY) ofType:type];
+                [_foregroundNode addChild:platformNode];
+            }
+        }
+        
+        NSDictionary *stars = levelData[@"Stars"];
+        NSDictionary *starPatterns = stars[@"Patterns"];
+        NSArray *starPositions = stars[@"Positions"];
+        for (NSDictionary *starPosition in starPositions) {
+            CGFloat patternX = [starPosition[@"x"] floatValue];
+            CGFloat patternY = [starPosition[@"y"] floatValue];
+            NSString *pattern = starPosition[@"pattern"];
+            
+            NSArray *starPattern = starPatterns[pattern];
+            for (NSDictionary *starPoint in starPattern) {
+                CGFloat x = [starPoint[@"x"] floatValue];
+                CGFloat y = [starPoint[@"y"] floatValue];
+                StarType type = [starPoint[@"type"] intValue];
+                
+                StarNode *starNode = [self createStarAtPosition:CGPointMake(x + patternX, y +  patternY) ofType:type];
+                [_foregroundNode addChild:starNode];
+            }
+        }
         
         _player = [self createPlayer];
         [_foregroundNode addChild:_player];
@@ -111,8 +151,8 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     StarNode *node = [StarNode node];
     [node setPosition:position];
     [node setName:@"NODE_STAR"];
-    
     [node setStarType:type];
+    
     SKSpriteNode *sprite;
     if (type == STAR_SPECIAL) {
         sprite = [SKSpriteNode spriteNodeWithImageNamed:@"StarSpecial"];
@@ -153,6 +193,25 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     return node;
 }
 
+- (SKNode *)createMidgroundNode
+{
+    SKNode *midgroundNode = [SKNode node];
+    for (int i=0; i<10; i++) {
+        NSString *spriteName;
+        int r = arc4random() % 2;
+        if (r > 0) {
+            spriteName = @"BranchRight";
+        } else {
+            spriteName = @"BranchLeft";
+        }
+        
+        SKSpriteNode *branchNode = [SKSpriteNode spriteNodeWithImageNamed:spriteName];
+        branchNode.position = CGPointMake(160.0f, 500.0f * i);
+        [midgroundNode addChild:branchNode];
+    }
+    return midgroundNode;
+}
+
 - (void) didBeginContact:(SKPhysicsContact *)contact
 {
     BOOL updateHUD = NO;
@@ -161,6 +220,14 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     
     if (updateHUD) {
         
+    }
+}
+
+- (void) update:(NSTimeInterval)currentTime {
+    if (_player.position.y > 200.0f) {
+        _backgroundNode.position = CGPointMake(0.0f, -((_player.position.y - 200.0f)/10));
+        _midgroundNode.position = CGPointMake(0.0f, -((_player.position.y - 200.0f)/4));
+        _foregroundNode.position = CGPointMake(0.0f, -(_player.position.y - 200.0f));
     }
 }
 

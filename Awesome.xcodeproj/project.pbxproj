@@ -25,6 +25,7 @@
 		C13E11E818F3102600FCC88A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13E11C018F3102500FCC88A /* UIKit.framework */; };
 		C13E11F018F3102600FCC88A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C13E11EE18F3102600FCC88A /* InfoPlist.strings */; };
 		C13E11F218F3102600FCC88A /* AwesomeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C13E11F118F3102600FCC88A /* AwesomeTests.m */; };
+		C15831CC18F86801004EBEAD /* StarPing.wav in Resources */ = {isa = PBXBuildFile; fileRef = C15831CB18F86801004EBEAD /* StarPing.wav */; };
 		C161EDCA18F31363001B77B4 /* Assets.atlas in Resources */ = {isa = PBXBuildFile; fileRef = C161ED9E18F31363001B77B4 /* Assets.atlas */; };
 		C161EDCB18F31363001B77B4 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = C161EDA018F31363001B77B4 /* Background.png */; };
 		C161EDCC18F31363001B77B4 /* Background01.png in Resources */ = {isa = PBXBuildFile; fileRef = C161EDA118F31363001B77B4 /* Background01.png */; };
@@ -71,7 +72,6 @@
 		C181E2B118F5A395003E66EF /* GameObjectNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B018F5A395003E66EF /* GameObjectNode.m */; };
 		C181E2B418F5A46C003E66EF /* StarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B318F5A46C003E66EF /* StarNode.m */; };
 		C181E2B718F5AA36003E66EF /* PlatformNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B618F5AA36003E66EF /* PlatformNode.m */; };
-		C186BA2E18F709EA00781FDC /* StarPing.wav in Resources */ = {isa = PBXBuildFile; fileRef = C186BA2D18F709EA00781FDC /* StarPing.wav */; };
 		C186BA3018F70AB400781FDC /* Level01.plist in Resources */ = {isa = PBXBuildFile; fileRef = C186BA2F18F70AB400781FDC /* Level01.plist */; };
 /* End PBXBuildFile section */
 
@@ -110,6 +110,7 @@
 		C13E11ED18F3102600FCC88A /* AwesomeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AwesomeTests-Info.plist"; sourceTree = "<group>"; };
 		C13E11EF18F3102600FCC88A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C13E11F118F3102600FCC88A /* AwesomeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeTests.m; sourceTree = "<group>"; };
+		C15831CB18F86801004EBEAD /* StarPing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = StarPing.wav; sourceTree = "<group>"; };
 		C161ED9E18F31363001B77B4 /* Assets.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Assets.atlas; sourceTree = "<group>"; };
 		C161EDA018F31363001B77B4 /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Background.png; sourceTree = "<group>"; };
 		C161EDA118F31363001B77B4 /* Background01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Background01.png; sourceTree = "<group>"; };
@@ -159,7 +160,6 @@
 		C181E2B318F5A46C003E66EF /* StarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarNode.m; sourceTree = "<group>"; };
 		C181E2B518F5AA36003E66EF /* PlatformNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformNode.h; sourceTree = "<group>"; };
 		C181E2B618F5AA36003E66EF /* PlatformNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlatformNode.m; sourceTree = "<group>"; };
-		C186BA2D18F709EA00781FDC /* StarPing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = StarPing.wav; path = Assets.atlas/StarPing.wav; sourceTree = "<group>"; };
 		C186BA2F18F70AB400781FDC /* Level01.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Level01.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -224,7 +224,7 @@
 			children = (
 				C13E11CD18F3102600FCC88A /* AweAppDelegate.h */,
 				C13E11CE18F3102600FCC88A /* AweAppDelegate.m */,
-				C186BA2D18F709EA00781FDC /* StarPing.wav */,
+				C15831CB18F86801004EBEAD /* StarPing.wav */,
 				C13E11D018F3102600FCC88A /* Main_iPhone.storyboard */,
 				C13E11D318F3102600FCC88A /* Main_iPad.storyboard */,
 				C13E11D618F3102600FCC88A /* AweViewController.h */,
@@ -412,13 +412,13 @@
 				C161EDEB18F31363001B77B4 /* Background16@2x.png in Resources */,
 				C161EDDB18F31363001B77B4 /* Background08@2x.png in Resources */,
 				C161EDE018F31363001B77B4 /* Background11.png in Resources */,
+				C15831CC18F86801004EBEAD /* StarPing.wav in Resources */,
 				C161EDDF18F31363001B77B4 /* Background10@2x.png in Resources */,
 				C161EDE418F31363001B77B4 /* Background13.png in Resources */,
 				C161EDD218F31363001B77B4 /* Background04.png in Resources */,
 				C161EDE818F31363001B77B4 /* Background15.png in Resources */,
 				C161EDEE18F31363001B77B4 /* Background18.png in Resources */,
 				C161EDCE18F31363001B77B4 /* Background02.png in Resources */,
-				C186BA2E18F709EA00781FDC /* StarPing.wav in Resources */,
 				C161EDE618F31363001B77B4 /* Background14.png in Resources */,
 				C161EDCB18F31363001B77B4 /* Background.png in Resources */,
 				C161EDDE18F31363001B77B4 /* Background10.png in Resources */,

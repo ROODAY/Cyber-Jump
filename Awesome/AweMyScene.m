@@ -24,12 +24,17 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     SKNode *_foregroundNode;
     SKNode *_hudNode;
     SKNode *_player;
+    SKSpriteNode *_lbutton;
+    SKSpriteNode *_rbutton;
     SKSpriteNode *_tapToStartNode;
     int _endLevelY;
 }
 @end
 
 @implementation AweMyScene
+
+bool moveRight = FALSE;
+bool moveLeft = FALSE;
 
 - (id) initWithSize:(CGSize)size
 {
@@ -98,6 +103,20 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
         _tapToStartNode = [SKSpriteNode spriteNodeWithImageNamed:@"TapToStart"];
         _tapToStartNode.position = CGPointMake(160, 180.0f);
         [_hudNode addChild:_tapToStartNode];
+        
+        _lbutton = [SKSpriteNode spriteNodeWithImageNamed:@"button"];
+        _lbutton.name = @"lbutton";
+        _lbutton.position = CGPointMake(40, 50);
+        _lbutton.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_lbutton.size.width/2];
+        _lbutton.physicsBody.dynamic = NO;
+        [self addChild:_lbutton];
+        
+        _rbutton = [SKSpriteNode spriteNodeWithImageNamed:@"button"];
+        _rbutton.name = @"rbutton";
+        _rbutton.physicsBody.dynamic = NO;
+        _rbutton.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_rbutton.size.width/2];
+        _rbutton.position = CGPointMake(280, 50);
+        [self addChild:_rbutton];
     }
     return self;
 }
@@ -145,6 +164,21 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     [_tapToStartNode removeFromParent];
     _player.physicsBody.dynamic = YES;
     [_player.physicsBody applyImpulse:CGVectorMake(0.0f, 20.0f)];
+    
+    UITouch *touch = [touches anyObject];
+    CGPoint location = [touch locationInNode:self];
+    SKNode *node = [self nodeAtPoint:location];
+    
+    if ([node.name isEqualToString:@"lbutton"]) {
+        //_player.physicsBody.velocity = CGVectorMake(200.0f, _player.physicsBody.velocity.dy);
+        NSLog(@"left button hit");
+        moveLeft = TRUE;
+    }
+    if ([node.name isEqualToString:@"rbutton"]) {
+        //_player.physicsBody.velocity = CGVectorMake(-200.0f, _player.physicsBody.velocity.dy);
+        NSLog(@"right button hit");
+        moveRight = TRUE;
+    }
 }
 - (StarNode *) createStarAtPosition:(CGPoint)position ofType:(StarType)type
 {
@@ -229,6 +263,24 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
         _midgroundNode.position = CGPointMake(0.0f, -((_player.position.y - 200.0f)/4));
         _foregroundNode.position = CGPointMake(0.0f, -(_player.position.y - 200.0f));
     }
+    if (moveLeft) {
+        _player.physicsBody.velocity = CGVectorMake(200.0f, _player.physicsBody.velocity.dy);
+        NSLog(@"Moving Left");
+    }
+    if (moveRight) {
+        _player.physicsBody.velocity = CGVectorMake(-200.0f, _player.physicsBody.velocity.dy);
+        NSLog(@"Moving Right");
+    }
+}
+
+- (void) didSimulatePhysics
+{
+    if (_player.position.x < -20.0f) {
+        _player.position = CGPointMake(340.0f, _player.position.y);
+    } else if (_player.position.x > 340.0f) {
+        _player.position = CGPointMake(-20.0f, _player.position.y);
+    }
+    return;
 }
 
 @end

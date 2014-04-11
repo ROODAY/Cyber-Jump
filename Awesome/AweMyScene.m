@@ -104,18 +104,18 @@ bool moveLeft = FALSE;
         _tapToStartNode.position = CGPointMake(160, 180.0f);
         [_hudNode addChild:_tapToStartNode];
         
-        _lbutton = [SKSpriteNode spriteNodeWithImageNamed:@"button"];
+        _lbutton = [SKSpriteNode spriteNodeWithImageNamed:@"Button"];
         _lbutton.name = @"lbutton";
         _lbutton.position = CGPointMake(40, 50);
         _lbutton.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_lbutton.size.width/2];
         _lbutton.physicsBody.dynamic = NO;
         [self addChild:_lbutton];
         
-        _rbutton = [SKSpriteNode spriteNodeWithImageNamed:@"button"];
+        _rbutton = [SKSpriteNode spriteNodeWithImageNamed:@"Button"];
         _rbutton.name = @"rbutton";
-        _rbutton.physicsBody.dynamic = NO;
-        _rbutton.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_rbutton.size.width/2];
         _rbutton.position = CGPointMake(280, 50);
+        _rbutton.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_rbutton.size.width/2];
+        _rbutton.physicsBody.dynamic = NO;
         [self addChild:_rbutton];
     }
     return self;

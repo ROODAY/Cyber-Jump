@@ -109,14 +109,14 @@ bool moveLeft = FALSE;
         _lbutton.position = CGPointMake(40, 50);
         _lbutton.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_lbutton.size.width/2];
         _lbutton.physicsBody.dynamic = NO;
-        [self addChild:_lbutton];
+        [_hudNode addChild:_lbutton];
         
         _rbutton = [SKSpriteNode spriteNodeWithImageNamed:@"Button"];
         _rbutton.name = @"rbutton";
         _rbutton.position = CGPointMake(280, 50);
         _rbutton.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_rbutton.size.width/2];
         _rbutton.physicsBody.dynamic = NO;
-        [self addChild:_rbutton];
+        [_hudNode addChild:_rbutton];
     }
     return self;
 }
@@ -167,17 +167,18 @@ bool moveLeft = FALSE;
     
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInNode:self];
-    SKNode *node = [self nodeAtPoint:location];
-    
-    if ([node.name isEqualToString:@"lbutton"]) {
-        //_player.physicsBody.velocity = CGVectorMake(200.0f, _player.physicsBody.velocity.dy);
-        NSLog(@"left button hit");
-        moveLeft = TRUE;
-    }
-    if ([node.name isEqualToString:@"rbutton"]) {
-        //_player.physicsBody.velocity = CGVectorMake(-200.0f, _player.physicsBody.velocity.dy);
-        NSLog(@"right button hit");
-        moveRight = TRUE;
+    NSArray *nodes = [self nodesAtPoint:[touch locationInNode:self]];
+    for (SKNode *node in nodes) {
+        if ([node.name isEqualToString:@"lbutton"]) {
+            _player.physicsBody.velocity = CGVectorMake(-200.0f, _player.physicsBody.velocity.dy);
+            NSLog(@"left button hit");
+            moveLeft = TRUE;
+        }
+        if ([node.name isEqualToString:@"rbutton"]) {
+            _player.physicsBody.velocity = CGVectorMake(200.0f, _player.physicsBody.velocity.dy);
+            NSLog(@"right button hit");
+            moveRight = TRUE;
+        }
     }
 }
 - (StarNode *) createStarAtPosition:(CGPoint)position ofType:(StarType)type

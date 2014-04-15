@@ -27,6 +27,8 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     SKSpriteNode *_lbutton;
     SKSpriteNode *_rbutton;
     SKSpriteNode *_tapToStartNode;
+    SKLabelNode *_lblScore;
+    SKLabelNode *_lblStars;
     int _endLevelY;
 }
 @end
@@ -103,6 +105,28 @@ bool moveLeft = FALSE;
         _tapToStartNode = [SKSpriteNode spriteNodeWithImageNamed:@"TapToStart"];
         _tapToStartNode.position = CGPointMake(160, 180.0f);
         [_hudNode addChild:_tapToStartNode];
+        
+        SKSpriteNode *star = [SKSpriteNode spriteNodeWithImageNamed:@"Star"];
+        star.position = CGPointMake(25, self.size.height - 30);
+        [_hudNode addChild:star];
+        
+        _lblStars = [SKLabelNode labelNodeWithFontNamed:@"ChalkboardSE-Bold"];
+        _lblStars.fontSize = 30;
+        _lblStars.fontColor = [SKColor whiteColor];
+        _lblStars.position = CGPointMake(50, self.size.height - 40);
+        _lblStars.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+        
+        [_lblStars setText:[NSString stringWithFormat:@"X %d", [GameState sharedInstance].stars]];
+        [_hudNode addChild:_lblStars];
+        
+        _lblScore = [SKLabelNode labelNodeWithFontNamed:@"ChalkboardSE-Bold"];
+        _lblScore.fontSize = 30;
+        _lblScore.fontColor = [SKColor whiteColor];
+        _lblScore.position = CGPointMake(self.size.width - 20, self.size.height - 40);
+        _lblScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
+        
+        [_lblScore setText:@"0"];
+        [_hudNode addChild:_lblScore];
         
         _lbutton = [SKSpriteNode spriteNodeWithImageNamed:@"Button"];
         _lbutton.name = @"lbutton";

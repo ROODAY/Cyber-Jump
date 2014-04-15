@@ -73,6 +73,7 @@
 		C181E2B418F5A46C003E66EF /* StarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B318F5A46C003E66EF /* StarNode.m */; };
 		C181E2B718F5AA36003E66EF /* PlatformNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B618F5AA36003E66EF /* PlatformNode.m */; };
 		C186BA3018F70AB400781FDC /* Level01.plist in Resources */ = {isa = PBXBuildFile; fileRef = C186BA2F18F70AB400781FDC /* Level01.plist */; };
+		C1AD5C7E18FDA008006E5CCB /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD5C7D18FDA008006E5CCB /* GameState.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,6 +162,8 @@
 		C181E2B518F5AA36003E66EF /* PlatformNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformNode.h; sourceTree = "<group>"; };
 		C181E2B618F5AA36003E66EF /* PlatformNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlatformNode.m; sourceTree = "<group>"; };
 		C186BA2F18F70AB400781FDC /* Level01.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Level01.plist; sourceTree = "<group>"; };
+		C1AD5C7C18FDA008006E5CCB /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
+		C1AD5C7D18FDA008006E5CCB /* GameState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameState.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +237,8 @@
 				C161ED9F18F31363001B77B4 /* Backgrounds */,
 				C13E11D918F3102600FCC88A /* AweMyScene.h */,
 				C13E11DA18F3102600FCC88A /* AweMyScene.m */,
+				C1AD5C7C18FDA008006E5CCB /* GameState.h */,
+				C1AD5C7D18FDA008006E5CCB /* GameState.m */,
 				C181E2AF18F5A395003E66EF /* GameObjectNode.h */,
 				C181E2B018F5A395003E66EF /* GameObjectNode.m */,
 				C181E2B218F5A46C003E66EF /* StarNode.h */,
@@ -471,6 +476,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C181E2B718F5AA36003E66EF /* PlatformNode.m in Sources */,
+				C1AD5C7E18FDA008006E5CCB /* GameState.m in Sources */,
 				C181E2B118F5A395003E66EF /* GameObjectNode.m in Sources */,
 				C13E11DB18F3102600FCC88A /* AweMyScene.m in Sources */,
 				C13E11D818F3102600FCC88A /* AweViewController.m in Sources */,

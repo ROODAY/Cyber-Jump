@@ -22,6 +22,8 @@
     player.physicsBody.velocity = CGVectorMake(player.physicsBody.velocity.dx, 400.0f);
     [self.parent runAction:_starSound];
     [self removeFromParent];
+    [GameState sharedInstance].score += (_starType == STAR_NORMAL ? 20 : 100);
+    
     return  YES;
 }
 

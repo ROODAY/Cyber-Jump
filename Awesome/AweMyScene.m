@@ -30,6 +30,7 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     SKLabelNode *_lblScore;
     SKLabelNode *_lblStars;
     int _endLevelY;
+    int _maxPlayerY
 }
 @end
 
@@ -42,6 +43,7 @@ bool moveLeft = FALSE;
 {
     if (self = [super initWithSize:size]) {
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+        _maxPlayerY = 80;
         self.physicsWorld.gravity = CGVectorMake(0.0f, -2.0f);
         self.physicsWorld.contactDelegate = self;
         
@@ -275,11 +277,18 @@ bool moveLeft = FALSE;
     updateHUD = [(GameObjectNode *)other collisionWithPlayer:_player];
     
     if (updateHUD) {
-        
+        [_lblStars setText:[NSString stringWithFormat:@"X %d", [GameState sharedInstance].stars]];
+        [_lblScore setText:[NSString stringWithFormat:@"%d", [GameState sharedInstance].score]];
     }
 }
 
 - (void) update:(NSTimeInterval)currentTime {
+    if ((int)_player.position.y > _maxPlayerY) {
+        [GameState sharedInstance].score += (int)_player.position.y - _maxPlayerY;
+        _maxPlayerY = (int)_player.position.y;
+        [_lblScore setText:[NSString stringWithFormat:@"%d", [GameState sharedInstance].score]];
+    }
+    
     if (_player.position.y > 200.0f) {
         _backgroundNode.position = CGPointMake(0.0f, -((_player.position.y - 200.0f)/10));
         _midgroundNode.position = CGPointMake(0.0f, -((_player.position.y - 200.0f)/4));

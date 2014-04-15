@@ -146,9 +146,9 @@ bool moveLeft = FALSE;
     playerNode.physicsBody.dynamic = NO;
     playerNode.physicsBody.allowsRotation = NO;
     playerNode.physicsBody.restitution = 1.0f;
-    playerNode.physicsBody.friction = 0.0f;
-    playerNode.physicsBody.angularDamping = 0.0f;
-    playerNode.physicsBody.linearDamping = 0.0f;
+    playerNode.physicsBody.friction = 0.1f;
+    playerNode.physicsBody.angularDamping = 0.2f;
+    playerNode.physicsBody.linearDamping = 0.2f;
     
     playerNode.physicsBody.usesPreciseCollisionDetection = YES;
     playerNode.physicsBody.categoryBitMask = CollisionCategoryPlayer;
@@ -160,26 +160,23 @@ bool moveLeft = FALSE;
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    UITouch *touch = [touches anyObject];
+    CGPoint location = [touch locationInNode:_hudNode];
+    SKSpriteNode *node = (SKSpriteNode *)[self nodeAtPoint:location];
+    
+    if ([node.name isEqualToString:@"lbutton"]) {
+        _player.physicsBody.velocity = CGVectorMake(-200.0f, _player.physicsBody.velocity.dy);
+        NSLog(@"left button hit");
+    }
+    if ([node.name isEqualToString:@"rbutton"]) {
+        _player.physicsBody.velocity = CGVectorMake(200.0f, _player.physicsBody.velocity.dy);
+        NSLog(@"right button hit");
+    }
+    
     if (_player.physicsBody.dynamic) return;
     [_tapToStartNode removeFromParent];
     _player.physicsBody.dynamic = YES;
     [_player.physicsBody applyImpulse:CGVectorMake(0.0f, 20.0f)];
-    
-    UITouch *touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:self];
-    NSArray *nodes = [self nodesAtPoint:[touch locationInNode:self]];
-    for (SKNode *node in nodes) {
-        if ([node.name isEqualToString:@"lbutton"]) {
-            _player.physicsBody.velocity = CGVectorMake(-200.0f, _player.physicsBody.velocity.dy);
-            NSLog(@"left button hit");
-            moveLeft = TRUE;
-        }
-        if ([node.name isEqualToString:@"rbutton"]) {
-            _player.physicsBody.velocity = CGVectorMake(200.0f, _player.physicsBody.velocity.dy);
-            NSLog(@"right button hit");
-            moveRight = TRUE;
-        }
-    }
 }
 - (StarNode *) createStarAtPosition:(CGPoint)position ofType:(StarType)type
 {
@@ -263,14 +260,6 @@ bool moveLeft = FALSE;
         _backgroundNode.position = CGPointMake(0.0f, -((_player.position.y - 200.0f)/10));
         _midgroundNode.position = CGPointMake(0.0f, -((_player.position.y - 200.0f)/4));
         _foregroundNode.position = CGPointMake(0.0f, -(_player.position.y - 200.0f));
-    }
-    if (moveLeft) {
-        _player.physicsBody.velocity = CGVectorMake(200.0f, _player.physicsBody.velocity.dy);
-        NSLog(@"Moving Left");
-    }
-    if (moveRight) {
-        _player.physicsBody.velocity = CGVectorMake(-200.0f, _player.physicsBody.velocity.dy);
-        NSLog(@"Moving Right");
     }
 }
 

@@ -23,6 +23,7 @@
     [self.parent runAction:_starSound];
     [self removeFromParent];
     [GameState sharedInstance].score += (_starType == STAR_NORMAL ? 20 : 100);
+    [GameState sharedInstance].stars += (_starType == STAR_NORMAL ? 1 : 5);
     
     return  YES;
 }

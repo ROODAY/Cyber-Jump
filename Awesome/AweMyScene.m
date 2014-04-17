@@ -30,7 +30,7 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     SKLabelNode *_lblScore;
     SKLabelNode *_lblStars;
     int _endLevelY;
-    int _maxPlayerY
+    int _maxPlayerY;
 }
 @end
 
@@ -288,6 +288,13 @@ bool moveLeft = FALSE;
         _maxPlayerY = (int)_player.position.y;
         [_lblScore setText:[NSString stringWithFormat:@"%d", [GameState sharedInstance].score]];
     }
+    
+    [_foregroundNode enumerateChildNodesWithName:@"NODE_PLATFORM" usingBlock:^(SKNode *node, BOOL *stop) {
+        [((PlatformNode *)node) checkNodeRemoval:_player.position.y];
+    }];
+    [_foregroundNode enumerateChildNodesWithName:@"NODE_STAR" usingBlock:^(SKNode *node, BOOL *stop) {
+        [((StarNode *)node) checkNodeRemoval:_player.position.y];
+    }];
     
     if (_player.position.y > 200.0f) {
         _backgroundNode.position = CGPointMake(0.0f, -((_player.position.y - 200.0f)/10));

@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "GameObjectNode.h"
 
 typedef NS_ENUM(int, StarType) {
     STAR_NORMAL,

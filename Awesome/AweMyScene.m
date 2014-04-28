@@ -10,6 +10,7 @@
 #import "StarNode.h"
 #import "GameObjectNode.h"
 #import "PlatformNode.h"
+#import "EndGameScene.h"
 
 typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     CollisionCategoryPlayer     = 0x1 << 0,
@@ -31,6 +32,7 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     SKLabelNode *_lblStars;
     int _endLevelY;
     int _maxPlayerY;
+    BOOL _gameOver;
 }
 @end
 
@@ -301,6 +303,14 @@ bool moveLeft = FALSE;
         _midgroundNode.position = CGPointMake(0.0f, -((_player.position.y - 200.0f)/4));
         _foregroundNode.position = CGPointMake(0.0f, -(_player.position.y - 200.0f));
     }
+    
+    if (_player.position.y > _endLevelY) {
+        [self endGame];
+    }
+    
+    if (_player.position.y < (_maxPlayerY - 400)) {
+        [self endGame];
+    }
 }
 
 - (void) didSimulatePhysics
@@ -311,6 +321,16 @@ bool moveLeft = FALSE;
         _player.position = CGPointMake(-20.0f, _player.position.y);
     }
     return;
+}
+
+- (void) endGame {
+    _gameOver = YES;
+    
+    [[GameState sharedInstance] saveState];
+    
+    SKScene *endGameScene = [[EndGameScene alloc] initWithSize:self.size];
+    SKTransition *reveal = [SKTransition fadeWithDuration:0.5];
+    [self.view presentScene:endGameScene transition:reveal];
 }
 
 @end

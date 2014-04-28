@@ -14,7 +14,7 @@ typedef NS_ENUM(int, StarType) {
     STAR_SPECIAL,
 };
 
-@interface StarNode : SKNode
+@interface StarNode : GameObjectNode
 
 @property (nonatomic, assign) StarType starType;
 

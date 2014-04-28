@@ -7,6 +7,7 @@
 //
 
 #import "EndGameScene.h"
+#import "AweMyScene.h"
 
 @implementation EndGameScene
 
@@ -49,6 +50,12 @@
         [self addChild:lblTryAgain];
     }
     return self;
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    SKScene *myScene = [[AweMyScene alloc] initWithSize:self.size];
+    SKTransition *reveal = [SKTransition fadeWithDuration:0.5];
+    [self.view presentScene:myScene transition:reveal];
 }
 
 @end

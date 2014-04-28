@@ -46,6 +46,9 @@ bool moveLeft = FALSE;
     if (self = [super initWithSize:size]) {
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
         _maxPlayerY = 80;
+        [GameState sharedInstance].score = 0;
+        [GameState sharedInstance].stars = 0;
+        _gameOver = NO;
         self.physicsWorld.gravity = CGVectorMake(0.0f, -2.0f);
         self.physicsWorld.contactDelegate = self;
         
@@ -285,6 +288,8 @@ bool moveLeft = FALSE;
 }
 
 - (void) update:(NSTimeInterval)currentTime {
+    if (_gameOver) return;
+    
     if ((int)_player.position.y > _maxPlayerY) {
         [GameState sharedInstance].score += (int)_player.position.y - _maxPlayerY;
         _maxPlayerY = (int)_player.position.y;

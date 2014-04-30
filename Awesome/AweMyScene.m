@@ -30,9 +30,12 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     SKSpriteNode *_tapToStartNode;
     SKLabelNode *_lblScore;
     SKLabelNode *_lblStars;
+    SKSpriteNode *_dpad;
     int _endLevelY;
     int _maxPlayerY;
+    float _touchX;
     BOOL _gameOver;
+    BOOL _dpadDown;
 }
 @end
 
@@ -135,7 +138,7 @@ bool moveLeft = FALSE;
         [_lblScore setText:@"0"];
         [_hudNode addChild:_lblScore];
         
-        _lbutton = [SKSpriteNode spriteNodeWithImageNamed:@"Button"];
+       /* _lbutton = [SKSpriteNode spriteNodeWithImageNamed:@"Button"];
         _lbutton.name = @"lbutton";
         _lbutton.position = CGPointMake(40, 50);
         _lbutton.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_lbutton.size.width/2];
@@ -147,7 +150,14 @@ bool moveLeft = FALSE;
         _rbutton.position = CGPointMake(280, 50);
         _rbutton.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_rbutton.size.width/2];
         _rbutton.physicsBody.dynamic = NO;
-        [_hudNode addChild:_rbutton];
+        [_hudNode addChild:_rbutton];*/
+        
+        _dpad = [SKSpriteNode spriteNodeWithImageNamed:@"Button"];
+        _dpad.name = @"dpad";
+        _dpad.position = CGPointMake(40, 50);
+        _dpad.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_dpad.size.width/2];
+        _dpad.physicsBody.dynamic = NO;
+        [_hudNode addChild:_dpad];
     }
     return self;
 }
@@ -203,12 +213,41 @@ bool moveLeft = FALSE;
         _player.physicsBody.velocity = CGVectorMake(200.0f, _player.physicsBody.velocity.dy);
         NSLog(@"right button hit");
     }
+    if ([node.name isEqualToString:@"dpad"]) {
+        _touchX = location.x;
+        _dpadDown = YES;
+    }
     
     if (_player.physicsBody.dynamic) return;
     [_tapToStartNode removeFromParent];
     _player.physicsBody.dynamic = YES;
     [_player.physicsBody applyImpulse:CGVectorMake(0.0f, 20.0f)];
 }
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    CGPoint location = [touch locationInNode:self];
+    SKNode *node = [self nodeAtPoint:location];
+    
+    if ([node.name isEqualToString:@"dpad"]) {
+        _touchX = location.x;
+        _dpadDown = YES;
+    }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    CGPoint location = [touch locationInNode:self];
+    SKNode *node = [self nodeAtPoint:location];
+    
+    if ([node.name isEqualToString:@"dpad"]) {
+        _dpadDown = NO;
+    }
+
+}
+
 - (StarNode *) createStarAtPosition:(CGPoint)position ofType:(StarType)type
 {
     StarNode *node = [StarNode node];
@@ -315,6 +354,24 @@ bool moveLeft = FALSE;
     
     if (_player.position.y < (_maxPlayerY - 400)) {
         [self endGame];
+    }
+    
+    if (_dpadDown) {
+        float angle = atan2f(0, _touchX - 150);
+        SKAction *moveDpad = [SKAction moveTo:CGPointMake(_touchX, 0) duration:0.00001];
+        double distance = sqrt(pow((_touchX - 150), 2.0) + pow((0 - 50), 2.0));
+        
+        if (distance < 40) {
+            [_dpad runAction:moveDpad];
+        }
+        
+        SKAction *movePlayer = [SKAction moveByX:6*cosf(angle) y:0 duration:0.005];
+        [_player runAction:movePlayer];
+    }
+    
+    if (!_dpadDown) {
+        SKAction *moveDpad = [SKAction moveTo:CGPointMake(40, 50) duration:0.00001];
+        [_dpad runAction:moveDpad];
     }
 }
 

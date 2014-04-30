@@ -46,7 +46,7 @@
         lblTryAgain.fontColor = [SKColor whiteColor];
         lblTryAgain.position = CGPointMake(160, 50);
         lblTryAgain.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-        [lblTryAgain setText:@"Retry?"];
+        [lblTryAgain setText:@"Tap to Retry!"];
         [self addChild:lblTryAgain];
     }
     return self;

@@ -25,8 +25,6 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     SKNode *_foregroundNode;
     SKNode *_hudNode;
     SKNode *_player;
-    SKSpriteNode *_lbutton;
-    SKSpriteNode *_rbutton;
     SKSpriteNode *_tapToStartNode;
     SKLabelNode *_lblScore;
     SKLabelNode *_lblStars;
@@ -34,6 +32,8 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     int _endLevelY;
     int _maxPlayerY;
     float _touchX;
+    int _dpadX;
+    int _dpadY;
     BOOL _gameOver;
     BOOL _dpadDown;
 }
@@ -138,26 +138,15 @@ bool moveLeft = FALSE;
         [_lblScore setText:@"0"];
         [_hudNode addChild:_lblScore];
         
-       /* _lbutton = [SKSpriteNode spriteNodeWithImageNamed:@"Button"];
-        _lbutton.name = @"lbutton";
-        _lbutton.position = CGPointMake(40, 50);
-        _lbutton.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_lbutton.size.width/2];
-        _lbutton.physicsBody.dynamic = NO;
-        [_hudNode addChild:_lbutton];
-        
-        _rbutton = [SKSpriteNode spriteNodeWithImageNamed:@"Button"];
-        _rbutton.name = @"rbutton";
-        _rbutton.position = CGPointMake(280, 50);
-        _rbutton.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_rbutton.size.width/2];
-        _rbutton.physicsBody.dynamic = NO;
-        [_hudNode addChild:_rbutton];*/
-        
         _dpad = [SKSpriteNode spriteNodeWithImageNamed:@"Button"];
         _dpad.name = @"dpad";
-        _dpad.position = CGPointMake(40, 50);
+        _dpad.position = CGPointMake(160, 27);
         _dpad.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_dpad.size.width/2];
         _dpad.physicsBody.dynamic = NO;
         [_hudNode addChild:_dpad];
+        
+        _dpadX = _dpad.position.x;
+        _dpadY = _dpad.position.y;
     }
     return self;
 }
@@ -180,7 +169,7 @@ bool moveLeft = FALSE;
 - (SKNode *) createPlayer
 {
     SKNode *playerNode = [SKNode node];
-    [playerNode setPosition:CGPointMake(160.0f, 80.0f)];
+    [playerNode setPosition:CGPointMake(160.0f, 85.0f)];
     SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Player"];
     [playerNode addChild:sprite];
     playerNode.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:sprite.size.width/2];
@@ -202,7 +191,7 @@ bool moveLeft = FALSE;
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:_hudNode];
+    CGPoint location = [touch locationInNode:self];
     SKSpriteNode *node = (SKSpriteNode *)[self nodeAtPoint:location];
     
     if ([node.name isEqualToString:@"lbutton"]) {
@@ -238,14 +227,7 @@ bool moveLeft = FALSE;
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    UITouch *touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:self];
-    SKNode *node = [self nodeAtPoint:location];
-    
-    if ([node.name isEqualToString:@"dpad"]) {
-        _dpadDown = NO;
-    }
-
+    _dpadDown = NO;
 }
 
 - (StarNode *) createStarAtPosition:(CGPoint)position ofType:(StarType)type
@@ -357,20 +339,24 @@ bool moveLeft = FALSE;
     }
     
     if (_dpadDown) {
-        float angle = atan2f(0, _touchX - 150);
-        SKAction *moveDpad = [SKAction moveTo:CGPointMake(_touchX, 0) duration:0.00001];
-        double distance = sqrt(pow((_touchX - 150), 2.0) + pow((0 - 50), 2.0));
+        float angle = atan2f(0, _touchX - _dpadX);
+        SKAction *moveDpad = [SKAction moveTo:CGPointMake(_touchX, _dpadY) duration:0.00001];
+        double distance = sqrt(pow((_touchX - _dpadX), 2.0) + pow((0), 2.0));
         
-        if (distance < 40) {
+        if (distance < 80) {
             [_dpad runAction:moveDpad];
         }
         
-        SKAction *movePlayer = [SKAction moveByX:6*cosf(angle) y:0 duration:0.005];
+        if (distance > 80) {
+            distance = 80;
+        }
+        
+        SKAction *movePlayer = [SKAction moveByX:0.25*(distance)*cosf(angle) y:0 duration:0.005];
         [_player runAction:movePlayer];
     }
     
     if (!_dpadDown) {
-        SKAction *moveDpad = [SKAction moveTo:CGPointMake(40, 50) duration:0.00001];
+        SKAction *moveDpad = [SKAction moveTo:CGPointMake(_dpadX, _dpadY) duration:0.00001];
         [_dpad runAction:moveDpad];
     }
 }

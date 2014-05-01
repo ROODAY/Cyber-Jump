@@ -36,6 +36,7 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     int _dpadY;
     BOOL _gameOver;
     BOOL _dpadDown;
+    BOOL _movingDpad;
 }
 @end
 
@@ -81,15 +82,15 @@ bool moveLeft = FALSE;
             
             NSArray *platformPattern = platformPatterns[pattern];
             for (NSDictionary *platformPoint in platformPattern) {
-                CGFloat x = [platformPoint[@"x"] floatValue];
+                    CGFloat x = [platformPoint[@"x"] floatValue];
                 CGFloat y = [platformPoint[@"y"] floatValue];
                 PlatformType type = [platformPoint[@"type"] intValue];
                 
                 PlatformNode *platformNode = [self createPlatformAtPosition:CGPointMake(x +  patternX, y + patternY) ofType:type];
                 [_foregroundNode addChild:platformNode];
             }
-        }
-        
+    }
+    
         NSDictionary *stars = levelData[@"Stars"];
         NSDictionary *starPatterns = stars[@"Patterns"];
         NSArray *starPositions = stars[@"Positions"];
@@ -205,6 +206,7 @@ bool moveLeft = FALSE;
     if ([node.name isEqualToString:@"dpad"]) {
         _touchX = location.x;
         _dpadDown = YES;
+        _movingDpad = YES;
     }
     
     if (_player.physicsBody.dynamic) return;
@@ -217,9 +219,8 @@ bool moveLeft = FALSE;
 {
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInNode:self];
-    SKNode *node = [self nodeAtPoint:location];
     
-    if ([node.name isEqualToString:@"dpad"]) {
+    if (_movingDpad) {
         _touchX = location.x;
         _dpadDown = YES;
     }

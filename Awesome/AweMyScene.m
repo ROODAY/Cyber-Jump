@@ -29,6 +29,7 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     SKLabelNode *_lblScore;
     SKLabelNode *_lblStars;
     SKSpriteNode *_dpad;
+    SKSpriteNode *_dpadback;
     int _endLevelY;
     int _maxPlayerY;
     float _touchX;
@@ -89,7 +90,7 @@ bool moveLeft = FALSE;
                 PlatformNode *platformNode = [self createPlatformAtPosition:CGPointMake(x +  patternX, y + patternY) ofType:type];
                 [_foregroundNode addChild:platformNode];
             }
-    }
+        }
     
         NSDictionary *stars = levelData[@"Stars"];
         NSDictionary *starPatterns = stars[@"Patterns"];
@@ -138,6 +139,11 @@ bool moveLeft = FALSE;
         
         [_lblScore setText:@"0"];
         [_hudNode addChild:_lblScore];
+        
+        _dpadback = [SKSpriteNode spriteNodeWithImageNamed:@"Dpadback"];
+        _dpadback.name = @"dpadback";
+        _dpadback.position = CGPointMake(160, 28);
+        [_hudNode addChild:_dpadback];
         
         _dpad = [SKSpriteNode spriteNodeWithImageNamed:@"Button"];
         _dpad.name = @"dpad";
@@ -195,14 +201,6 @@ bool moveLeft = FALSE;
     CGPoint location = [touch locationInNode:self];
     SKSpriteNode *node = (SKSpriteNode *)[self nodeAtPoint:location];
     
-    if ([node.name isEqualToString:@"lbutton"]) {
-        _player.physicsBody.velocity = CGVectorMake(-200.0f, _player.physicsBody.velocity.dy);
-        NSLog(@"left button hit");
-    }
-    if ([node.name isEqualToString:@"rbutton"]) {
-        _player.physicsBody.velocity = CGVectorMake(200.0f, _player.physicsBody.velocity.dy);
-        NSLog(@"right button hit");
-    }
     if ([node.name isEqualToString:@"dpad"]) {
         _touchX = location.x;
         _dpadDown = YES;
@@ -229,6 +227,7 @@ bool moveLeft = FALSE;
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     _dpadDown = NO;
+    _movingDpad = NO;
 }
 
 - (StarNode *) createStarAtPosition:(CGPoint)position ofType:(StarType)type

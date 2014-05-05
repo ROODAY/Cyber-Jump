@@ -77,15 +77,27 @@ bool moveLeft = FALSE;
         NSDictionary *platformPatterns = platforms[@"Patterns"];
         NSArray *platformPositions = platforms[@"Positions"];
         for (NSDictionary *platformPosition in platformPositions) {
-            CGFloat patternX = [platformPosition[@"x"] floatValue];
-            CGFloat patternY = [platformPosition[@"y"] floatValue];
+            //CGFloat patternX = [platformPosition[@"x"] floatValue];
+            //CGFloat patternY = [platformPosition[@"y"] floatValue];
+            
+            CGFloat patternX = arc4random_uniform(320);
+            CGFloat patternY = arc4random_uniform(60) + arc4random_uniform(20);
+            
             NSString *pattern = platformPosition[@"pattern"];
             
             NSArray *platformPattern = platformPatterns[pattern];
             for (NSDictionary *platformPoint in platformPattern) {
-                    CGFloat x = [platformPoint[@"x"] floatValue];
-                CGFloat y = [platformPoint[@"y"] floatValue];
-                PlatformType type = [platformPoint[@"type"] intValue];
+                int randTypeNum = arc4random_uniform(2);
+                int platformDensity = arc4random_uniform(5);
+                int randPlatformX = arc4random_uniform(320);
+                
+                PlatformType type = randTypeNum;
+                
+                
+                //CGFloat x = [platformPoint[@"x"] floatValue];
+                //CGFloat y = [platformPoint[@"y"] floatValue];
+                //PlatformType type = [platformPoint[@"type"] intValue];
+                NSLog(@"Type is %i", type);
                 
                 PlatformNode *platformNode = [self createPlatformAtPosition:CGPointMake(x +  patternX, y + patternY) ofType:type];
                 [_foregroundNode addChild:platformNode];

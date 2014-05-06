@@ -35,6 +35,10 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     float _touchX;
     int _dpadX;
     int _dpadY;
+    int _platformYOffset;
+    int _starYOffset;
+    float _lastPlatformHeight;
+    float _lastStarHeight;
     BOOL _gameOver;
     BOOL _dpadDown;
     BOOL _movingDpad;
@@ -69,59 +73,41 @@ bool moveLeft = FALSE;
         _hudNode = [SKNode node];
         [self addChild:_hudNode];
         
-        NSString *levelPlist = [[NSBundle mainBundle] pathForResource:@"Level01" ofType:@"plist"];
-        NSDictionary *levelData = [NSDictionary dictionaryWithContentsOfFile:levelPlist];
-        _endLevelY = [levelData[@"EndY"] intValue];
+        _platformYOffset = 0;
+        for (int platformCounter = 0; platformCounter <= 100; platformCounter++) {
+            CGFloat platformX = arc4random_uniform(320);
+            CGFloat platformY = arc4random_uniform(80) + _platformYOffset;
+                
+            PlatformType platformType = arc4random_uniform(2);
+            NSLog(@"Platform Type is: %i", platformType);
+            
+            _platformYOffset += 40;
+            NSLog(@"The platformYOffset is: %i", _platformYOffset);
+            
+            PlatformNode *platformNode = [self createPlatformAtPosition:CGPointMake(platformX, platformY) ofType:platformType];
+            [_foregroundNode addChild:platformNode];
+            NSLog(@"Platform made at: (%f, %f)", platformX, platformY);
+            _lastPlatformHeight = platformY;
+        }
         
-        NSDictionary *platforms = levelData[@"Platforms"];
-        NSDictionary *platformPatterns = platforms[@"Patterns"];
-        NSArray *platformPositions = platforms[@"Positions"];
-        for (NSDictionary *platformPosition in platformPositions) {
-            //CGFloat patternX = [platformPosition[@"x"] floatValue];
-            //CGFloat patternY = [platformPosition[@"y"] floatValue];
+        _starYOffset = 0;
+        for (int starCounter = 0; starCounter <= 100; starCounter++) {
+            CGFloat starX = arc4random_uniform(320);
+            CGFloat starY = arc4random_uniform(140) + _starYOffset;
             
-            CGFloat patternX = arc4random_uniform(320);
-            CGFloat patternY = arc4random_uniform(60) + arc4random_uniform(20);
+            StarType starType = arc4random_uniform(2);
+            NSLog(@"Star Type is: %i", starType);
             
-            NSString *pattern = platformPosition[@"pattern"];
+            _starYOffset += 80;
+            NSLog(@"The starYOffset is: %i", _starYOffset);
             
-            NSArray *platformPattern = platformPatterns[pattern];
-            for (NSDictionary *platformPoint in platformPattern) {
-                int randTypeNum = arc4random_uniform(2);
-                int platformDensity = arc4random_uniform(5);
-                int randPlatformX = arc4random_uniform(320);
-                
-                PlatformType type = randTypeNum;
-                
-                
-                //CGFloat x = [platformPoint[@"x"] floatValue];
-                //CGFloat y = [platformPoint[@"y"] floatValue];
-                //PlatformType type = [platformPoint[@"type"] intValue];
-                NSLog(@"Type is %i", type);
-                
-                PlatformNode *platformNode = [self createPlatformAtPosition:CGPointMake(x +  patternX, y + patternY) ofType:type];
-                [_foregroundNode addChild:platformNode];
-            }
+            StarNode *starNode = [self createStarAtPosition:CGPointMake(starX, starY) ofType:starType];
+            [_foregroundNode addChild:starNode];
+            NSLog(@"Star made at: (%f, %f)", starX, starY);
+            _lastStarHeight = starY;
         }
-    
-        NSDictionary *stars = levelData[@"Stars"];
-        NSDictionary *starPatterns = stars[@"Patterns"];
-        NSArray *starPositions = stars[@"Positions"];
-        for (NSDictionary *starPosition in starPositions) {
-            CGFloat patternX = [starPosition[@"x"] floatValue];
-            CGFloat patternY = [starPosition[@"y"] floatValue];
-            NSString *pattern = starPosition[@"pattern"];
-            
-            NSArray *starPattern = starPatterns[pattern];
-            for (NSDictionary *starPoint in starPattern) {
-                CGFloat x = [starPoint[@"x"] floatValue];
-                CGFloat y = [starPoint[@"y"] floatValue];
-                StarType type = [starPoint[@"type"] intValue];
-                
-                StarNode *starNode = [self createStarAtPosition:CGPointMake(x + patternX, y +  patternY) ofType:type];
-                [_foregroundNode addChild:starNode];
-            }
-        }
+        
+        _endLevelY = _lastStarHeight + _lastPlatformHeight;
         
         _player = [self createPlayer];
         [_foregroundNode addChild:_player];
@@ -323,6 +309,14 @@ bool moveLeft = FALSE;
 - (void) update:(NSTimeInterval)currentTime {
     if (_gameOver) return;
     
+    if (_player.position.y > _lastPlatformHeight - 200) {
+        [self createMorePlatforms];
+    }
+    
+    if (_player.position.y > _lastStarHeight - 200) {
+        [self createMoreStars];
+    }
+    
     if ((int)_player.position.y > _maxPlayerY) {
         [GameState sharedInstance].score += (int)_player.position.y - _maxPlayerY;
         _maxPlayerY = (int)_player.position.y;
@@ -342,8 +336,13 @@ bool moveLeft = FALSE;
         _foregroundNode.position = CGPointMake(0.0f, -(_player.position.y - 200.0f));
     }
     
+    if (_player.position.y > _endLevelY - 500) {
+        _endLevelY += 5000;
+    }
+    
     if (_player.position.y > _endLevelY) {
         [self endGame];
+        NSLog(@"Game ended! Last Platform height was: %f, Last Star Height Was: %f, Player Height Was: %f, End Level Y was: %i", _lastPlatformHeight, _lastStarHeight, _player.position.y, _endLevelY);
     }
     
     if (_player.position.y < (_maxPlayerY - 400)) {
@@ -381,6 +380,42 @@ bool moveLeft = FALSE;
         _player.position = CGPointMake(-20.0f, _player.position.y);
     }
     return;
+}
+
+- (void) createMorePlatforms {
+    for (int platformCounter = 0; platformCounter <= 100; platformCounter++) {
+        CGFloat platformX = arc4random_uniform(320);
+        CGFloat platformY = arc4random_uniform(80) + _platformYOffset;
+        
+        PlatformType platformType = arc4random_uniform(2);
+        NSLog(@"Platform Type is: %i", platformType);
+        
+        _platformYOffset += 40;
+        NSLog(@"The platformYOffset is: %i", _platformYOffset);
+        
+        PlatformNode *platformNode = [self createPlatformAtPosition:CGPointMake(platformX, platformY) ofType:platformType];
+        [_foregroundNode addChild:platformNode];
+        NSLog(@"Platform made at: (%f, %f)", platformX, platformY);
+        _lastPlatformHeight = platformY;
+    }
+}
+
+- (void)  createMoreStars {
+    for (int starCounter = 0; starCounter <= 100; starCounter++) {
+        CGFloat starX = arc4random_uniform(320);
+        CGFloat starY = arc4random_uniform(140) + _starYOffset;
+        
+        StarType starType = arc4random_uniform(2);
+        NSLog(@"Star Type is: %i", starType);
+        
+        _starYOffset += 80;
+        NSLog(@"The starYOffset is: %i", _starYOffset);
+        
+        StarNode *starNode = [self createStarAtPosition:CGPointMake(starX, starY) ofType:starType];
+        [_foregroundNode addChild:starNode];
+        NSLog(@"Star made at: (%f, %f)", starX, starY);
+        _lastStarHeight = starY;
+    }
 }
 
 - (void) endGame {

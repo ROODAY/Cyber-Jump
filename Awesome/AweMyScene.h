@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "GameScene.h"
 
 @interface AweMyScene : SKScene
 

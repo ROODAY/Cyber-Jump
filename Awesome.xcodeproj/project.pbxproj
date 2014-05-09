@@ -73,9 +73,9 @@
 		C181E2B418F5A46C003E66EF /* StarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B318F5A46C003E66EF /* StarNode.m */; };
 		C181E2B718F5AA36003E66EF /* PlatformNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B618F5AA36003E66EF /* PlatformNode.m */; };
 		C186BA3018F70AB400781FDC /* Level01.plist in Resources */ = {isa = PBXBuildFile; fileRef = C186BA2F18F70AB400781FDC /* Level01.plist */; };
+		C1A1E20A191D3E2D00DE83B5 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C1A1E209191D3E2D00DE83B5 /* GameScene.m */; };
 		C1AD5C7E18FDA008006E5CCB /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD5C7D18FDA008006E5CCB /* GameState.m */; };
 		C1B8D28F190EC2D300256137 /* EndGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C1B8D28E190EC2D300256137 /* EndGameScene.m */; };
-		C1D33F34191BFE8500C6FAF6 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C1D33F33191BFE8500C6FAF6 /* GameScene.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,12 +164,12 @@
 		C181E2B518F5AA36003E66EF /* PlatformNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformNode.h; sourceTree = "<group>"; };
 		C181E2B618F5AA36003E66EF /* PlatformNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlatformNode.m; sourceTree = "<group>"; };
 		C186BA2F18F70AB400781FDC /* Level01.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Level01.plist; sourceTree = "<group>"; };
+		C1A1E208191D3E2D00DE83B5 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		C1A1E209191D3E2D00DE83B5 /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
 		C1AD5C7C18FDA008006E5CCB /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
 		C1AD5C7D18FDA008006E5CCB /* GameState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameState.m; sourceTree = "<group>"; };
 		C1B8D28D190EC2D300256137 /* EndGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndGameScene.h; sourceTree = "<group>"; };
 		C1B8D28E190EC2D300256137 /* EndGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndGameScene.m; sourceTree = "<group>"; };
-		C1D33F32191BFE8500C6FAF6 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameScene.h; path = ../GameScene.h; sourceTree = "<group>"; };
-		C1D33F33191BFE8500C6FAF6 /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameScene.m; path = ../GameScene.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,8 +231,8 @@
 		C13E11C418F3102500FCC88A /* Awesome */ = {
 			isa = PBXGroup;
 			children = (
-				C1D33F32191BFE8500C6FAF6 /* GameScene.h */,
-				C1D33F33191BFE8500C6FAF6 /* GameScene.m */,
+				C1A1E208191D3E2D00DE83B5 /* GameScene.h */,
+				C1A1E209191D3E2D00DE83B5 /* GameScene.m */,
 				C13E11CD18F3102600FCC88A /* AweAppDelegate.h */,
 				C13E11CE18F3102600FCC88A /* AweAppDelegate.m */,
 				C15831CB18F86801004EBEAD /* StarPing.wav */,
@@ -487,7 +487,7 @@
 			files = (
 				C181E2B718F5AA36003E66EF /* PlatformNode.m in Sources */,
 				C1B8D28F190EC2D300256137 /* EndGameScene.m in Sources */,
-				C1D33F34191BFE8500C6FAF6 /* GameScene.m in Sources */,
+				C1A1E20A191D3E2D00DE83B5 /* GameScene.m in Sources */,
 				C1AD5C7E18FDA008006E5CCB /* GameState.m in Sources */,
 				C181E2B118F5A395003E66EF /* GameObjectNode.m in Sources */,
 				C13E11DB18F3102600FCC88A /* AweMyScene.m in Sources */,

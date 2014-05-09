@@ -10,4 +10,6 @@
 
 @interface EndGameScene : SKScene
 
+- (id) initWithSize:(CGSize)size andDifficulty:(int)difficulty;
+@property (nonatomic) int gameDifficulty;
 @end

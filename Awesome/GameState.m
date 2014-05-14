@@ -27,6 +27,8 @@
         _score = 0;
         _highScore = 0;
         _stars = 0;
+        _force= 0.0f;
+        _difficulty = 0;
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         id highScore = [defaults objectForKey:@"highScore"];

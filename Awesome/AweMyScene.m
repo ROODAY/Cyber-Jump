@@ -58,22 +58,22 @@
     SKSpriteNode *node = (SKSpriteNode *)[self nodeAtPoint:location];
     
     if ([node.name isEqualToString:@"easy"]) {
-        self.gameDifficulty = 0;
-        GameScene *myScene = [[GameScene alloc] initWithSize:self.size andDifficulty:self.gameDifficulty];
+        [GameState sharedInstance].difficulty = 0;
+        GameScene *myScene = [[GameScene alloc] initWithSize:self.size];
         SKTransition *reveal = [SKTransition fadeWithDuration:0.5];
         [self.view presentScene:myScene transition:reveal];
     }
     
     if ([node.name isEqualToString:@"medium"]) {
-        self.gameDifficulty = 1;
-        GameScene *myScene = [[GameScene alloc] initWithSize:self.size andDifficulty:self.gameDifficulty];
+        [GameState sharedInstance].difficulty = 1;
+        GameScene *myScene = [[GameScene alloc] initWithSize:self.size];
         SKTransition *reveal = [SKTransition fadeWithDuration:0.5];
         [self.view presentScene:myScene transition:reveal];
     }
     
     if ([node.name isEqualToString:@"hard"]) {
-        self.gameDifficulty = 2;
-        GameScene *myScene = [[GameScene alloc] initWithSize:self.size andDifficulty:self.gameDifficulty];
+        [GameState sharedInstance].difficulty = 2;
+        GameScene *myScene = [[GameScene alloc] initWithSize:self.size];
         SKTransition *reveal = [SKTransition fadeWithDuration:0.5];
         [self.view presentScene:myScene transition:reveal];
     }

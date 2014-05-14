@@ -12,8 +12,16 @@
 
 - (BOOL) collisionWithPlayer:(SKNode *)player
 {
+    if ([GameState sharedInstance].difficulty == 0) {
+        [GameState sharedInstance].force = 250.0f;
+    } else if ([GameState sharedInstance].difficulty == 1) {
+        [GameState sharedInstance].force = 300.0f;
+    } else if ([GameState sharedInstance].difficulty == 2) {
+        [GameState sharedInstance].force = 350.0f;
+    }
+    
     if (player.physicsBody.velocity.dy < 0) {
-        player.physicsBody.velocity = CGVectorMake(player.physicsBody.velocity.dx, 250.0f);
+        player.physicsBody.velocity = CGVectorMake(player.physicsBody.velocity.dx, [GameState sharedInstance].force);
         
         if (_platformType == PLATFORM_BREAK) {
             [self removeFromParent];

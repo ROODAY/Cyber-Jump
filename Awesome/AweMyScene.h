@@ -11,6 +11,4 @@
 
 @interface AweMyScene : SKScene
 
-@property (nonatomic) int gameDifficulty;
-
 @end

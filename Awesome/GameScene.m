@@ -40,6 +40,8 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     int _starYOffset;
     float _lastPlatformHeight;
     float _lastStarHeight;
+    float _lastPlatformX;
+    float _lastStarX;
     BOOL _gameOver;
     BOOL _dpadDown;
     BOOL _movingDpad;
@@ -86,22 +88,40 @@ bool moveLeft = FALSE;
         for (int platformCounter = 0; platformCounter <= 100; platformCounter++) {
             CGFloat platformX = arc4random_uniform(320);
             CGFloat platformY = arc4random_uniform(80) + _platformYOffset;
-            
             PlatformType platformType = arc4random_uniform(2);
-            //NSLog(@"Platform Type is: %i", platformType);
-            
             _platformYOffset += 40;
-            //NSLog(@"The platformYOffset is: %i", _platformYOffset);
             
             if (platformY < 85.0f) {
                 _makePlatform = FALSE;
+            }
+            if ([GameState sharedInstance].difficulty == 0) {
+                if (fabsf(_lastPlatformX - platformX) < 100.0) {
+                    platformX += 100;
+                }
+                if (fabsf(_lastPlatformHeight - platformY) < 60.0) {
+                    platformY += 60;
+                }
+            } else if ([GameState sharedInstance].difficulty == 1) {
+                if (fabsf(_lastPlatformX - platformX) < 80.0) {
+                    platformX += 80;
+                }
+                if (fabsf(_lastPlatformHeight - platformY) < 50.0) {
+                    platformY += 50;
+                }
+            } else if ([GameState sharedInstance].difficulty == 2) {
+                if (fabsf(_lastPlatformX - platformX) < 60.0) {
+                    platformX += 60;
+                }
+                if (fabsf(_lastPlatformHeight - platformY) < 40.0) {
+                    platformY += 40;
+                }
             }
             
             if (_makePlatform) {
                 PlatformNode *platformNode = [self createPlatformAtPosition:CGPointMake(platformX, platformY) ofType:platformType];
                 [_foregroundNode addChild:platformNode];
-                //NSLog(@"Platform made at: (%f, %f)", platformX, platformY);
                 _lastPlatformHeight = platformY;
+                _lastPlatformX = platformX;
                 
                 if ([GameState sharedInstance].difficulty == 0) {
                     _makePlatform = TRUE;
@@ -125,22 +145,41 @@ bool moveLeft = FALSE;
         for (int starCounter = 0; starCounter <= 100; starCounter++) {
             CGFloat starX = arc4random_uniform(320);
             CGFloat starY = arc4random_uniform(140) + _starYOffset;
-            
             StarType starType = arc4random_uniform(2);
-            //NSLog(@"Star Type is: %i", starType);
-            
             _starYOffset += 80;
-            //NSLog(@"The starYOffset is: %i", _starYOffset);
             
             if (starY < 85.0f) {
                 _makeStar = FALSE;
+            }
+            NSLog(@"%f", fabs(_lastStarHeight - starY));
+            if ([GameState sharedInstance].difficulty == 0) {
+                if (fabsf(_lastStarX - starX) < 100.0) {
+                    starX += 100;
+                }
+                if (fabsf(_lastStarHeight - starY) < 3060.0) {
+                    starY += 3060;
+                }
+            } else if ([GameState sharedInstance].difficulty == 1) {
+                if (fabsf(_lastStarX - starX) < 80.0) {
+                    starX += 80;
+                }
+                if (fabsf(_lastStarHeight - starY) < 2750.0) {
+                    starY += 2750;
+                }
+            } else if ([GameState sharedInstance].difficulty == 2) {
+                if (fabsf(_lastStarX - starX) < 60.0) {
+                    starX += 60;
+                }
+                if (fabsf(_lastStarHeight - starY) < 2540.0) {
+                    starY += 2540;
+                }
             }
             
             if (_makeStar) {
                 StarNode *starNode = [self createStarAtPosition:CGPointMake(starX, starY) ofType:starType];
                 [_foregroundNode addChild:starNode];
-                //NSLog(@"Star made at: (%f, %f)", starX, starY);
                 _lastStarHeight = starY;
+                _lastStarX = starX;
                 
                 if ([GameState sharedInstance].difficulty == 0) {
                     _makeStar = TRUE;
@@ -177,7 +216,6 @@ bool moveLeft = FALSE;
         _lblStars.fontColor = [SKColor whiteColor];
         _lblStars.position = CGPointMake(50, self.size.height - 40);
         _lblStars.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
-        
         [_lblStars setText:[NSString stringWithFormat:@"X %d", [GameState sharedInstance].stars]];
         [_hudNode addChild:_lblStars];
         
@@ -186,7 +224,6 @@ bool moveLeft = FALSE;
         _lblScore.fontColor = [SKColor whiteColor];
         _lblScore.position = CGPointMake(self.size.width - 20, self.size.height - 40);
         _lblScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
-        
         [_lblScore setText:@"0"];
         [_hudNode addChild:_lblScore];
         
@@ -263,7 +300,7 @@ bool moveLeft = FALSE;
     if (_player.physicsBody.dynamic) return;
     [_tapToStartNode removeFromParent];
     _player.physicsBody.dynamic = YES;
-    [_player.physicsBody applyImpulse:CGVectorMake(0.0f, 20.0f)];
+    [_player.physicsBody applyImpulse:CGVectorMake(0.0f, 50.0f)];
 }
 
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -392,15 +429,6 @@ bool moveLeft = FALSE;
         _midgroundNode.position = CGPointMake(0.0f, -((_player.position.y - 200.0f)/4));
         _foregroundNode.position = CGPointMake(0.0f, -(_player.position.y - 200.0f));
     }
-    /*
-    if (_player.position.y > _endLevelY - 500) {
-        _endLevelY += 5000;
-    }
-    
-    if (_player.position.y > _endLevelY) {
-        [self endGame];
-        //NSLog(@"Game ended! Last Platform height was: %f, Last Star Height Was: %f, Player Height Was: %f, End Level Y was: %i", _lastPlatformHeight, _lastStarHeight, _player.position.y, _endLevelY);
-    }*/
     
     if (_player.position.y < (_maxPlayerY - 400)) {
         [self endGame];
@@ -454,17 +482,40 @@ bool moveLeft = FALSE;
     for (int platformCounter = 0; platformCounter <= 100; platformCounter++) {
         CGFloat platformX = arc4random_uniform(320);
         CGFloat platformY = (_platformSpacerMultiplier * arc4random_uniform(80)) + _platformYOffset;
-        
         PlatformType platformType = arc4random_uniform(2);
-        //NSLog(@"Platform Type is: %i", platformType);
-        
         _platformYOffset += 40;
-        //NSLog(@"The platformYOffset is: %i", _platformYOffset);
         
+        if (platformY < 85.0f) {
+            _makePlatform = FALSE;
+        }
+        if ([GameState sharedInstance].difficulty == 0) {
+            if (fabsf(_lastPlatformX - platformX) < 100.0) {
+                platformX += 100;
+            }
+            if (fabsf(_lastPlatformHeight - platformY) < 60.0) {
+                platformY += 60;
+            }
+        } else if ([GameState sharedInstance].difficulty == 1) {
+            if (fabsf(_lastPlatformX - platformX) < 80.0) {
+                platformX += 80;
+            }
+            if (fabsf(_lastPlatformHeight - platformY) < 50.0) {
+                platformY += 50;
+            }
+        } else if ([GameState sharedInstance].difficulty == 2) {
+            if (fabsf(_lastPlatformX - platformX) < 60.0) {
+                platformX += 60;
+            }
+            if (fabsf(_lastPlatformHeight - platformY) < 40.0) {
+                platformY += 40;
+            }
+        }
+        
+        NSLog(@"%d", _makePlatform);
         if (_makePlatform) {
             PlatformNode *platformNode = [self createPlatformAtPosition:CGPointMake(platformX, platformY) ofType:platformType];
             [_foregroundNode addChild:platformNode];
-            //NSLog(@"Platform made at: (%f, %f)", platformX, platformY);
+            NSLog(@"Platform made at: (%f, %f)", platformX, platformY);
             _lastPlatformHeight = platformY;
             
             if ([GameState sharedInstance].difficulty == 0) {
@@ -475,10 +526,10 @@ bool moveLeft = FALSE;
                 _makePlatform = FALSE;
                 _skipPlatform = TRUE;
             }
-        } else if (!_makePlatform && _skipPlatform) {
-            _makePlatform = FALSE;
         } else if (!_makePlatform) {
             _makePlatform = TRUE;
+        } else if (!_makePlatform && _skipPlatform) {
+            _makePlatform = FALSE;
         }
     }
 }
@@ -498,17 +549,39 @@ bool moveLeft = FALSE;
     for (int starCounter = 0; starCounter <= 100; starCounter++) {
         CGFloat starX = arc4random_uniform(320);
         CGFloat starY = (_starSpacerMultiplier * arc4random_uniform(140)) + _starYOffset;
-        
         StarType starType = arc4random_uniform(2);
-        //NSLog(@"Star Type is: %i", starType);
-        
         _starYOffset += 80;
-        //NSLog(@"The starYOffset is: %i", _starYOffset);
+        
+        if (starY < 85.0f) {
+            _makeStar = FALSE;
+        }
+        
+        if ([GameState sharedInstance].difficulty == 0) {
+            if (fabsf(_lastStarX - starX) < 100.0) {
+                starX += 100;
+            }
+            if (fabsf(_lastStarHeight - starY) < 3060.0) {
+                starY += 3060;
+            }
+        } else if ([GameState sharedInstance].difficulty == 1) {
+            if (fabsf(_lastStarX - starX) < 80.0) {
+                starX += 80;
+            }
+            if (fabsf(_lastStarHeight - starY) < 2750.0) {
+                starY += 2750;
+            }
+        } else if ([GameState sharedInstance].difficulty == 2) {
+            if (fabsf(_lastStarX - starX) < 60.0) {
+                starX += 60;
+            }
+            if (fabsf(_lastStarHeight - starY) < 2540.0) {
+                starY += 2540;
+            }
+        }
         
         if (_makeStar) {
             StarNode *starNode = [self createStarAtPosition:CGPointMake(starX, starY) ofType:starType];
             [_foregroundNode addChild:starNode];
-            //NSLog(@"Star made at: (%f, %f)", starX, starY);
             _lastStarHeight = starY;
             
             if ([GameState sharedInstance].difficulty == 0) {
@@ -519,10 +592,10 @@ bool moveLeft = FALSE;
                 _makeStar = FALSE;
                 _skipStar = TRUE;
             }
-        } else if (!_makeStar && _skipStar) {
-            _makeStar = FALSE;
         } else if (!_makeStar) {
             _makeStar = TRUE;
+        } else if (!_makeStar && _skipStar) {
+            _makeStar = FALSE;
         }
         
     }

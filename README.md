@@ -10,7 +10,7 @@ Instead of using the accelerometer to control the player's movement, a simple Dp
 Points awarded for collecting Stars and Moving farther up the game, and highscores are saved locally.
 
 Todo:   
-[X] Finish Tutorial   
-[] Use my own art and sounds (Cyber theme)   
-[] ~~Make game infinitely long (Currently has an endpoint)~~ Make levels still look good even with random placement of pieces   
-[] Add in: WLAN multiplayer, gamecenter support, powerups   
+- [X] Finish Tutorial   
+- [ ] Use my own art and sounds (Cyber theme)   
+- [ ] ~~Make game infinitely long (Currently has an endpoint)~~ Make levels still look good even with random placement of pieces   
+- [ ] Add in: WLAN multiplayer, gamecenter support, powerups   

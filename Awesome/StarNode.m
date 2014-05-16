@@ -20,9 +20,9 @@
 - (BOOL) collisionWithPlayer:(SKNode *)player
 {
     if ([GameState sharedInstance].difficulty == 0) {
-        [GameState sharedInstance].force = 350.0f;
-    } else if ([GameState sharedInstance].difficulty == 1) {
         [GameState sharedInstance].force = 400.0f;
+    } else if ([GameState sharedInstance].difficulty == 1) {
+        [GameState sharedInstance].force = 425.0f;
     } else if ([GameState sharedInstance].difficulty == 2) {
         [GameState sharedInstance].force = 450.0f;
     }

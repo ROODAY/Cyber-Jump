@@ -89,35 +89,43 @@ bool moveLeft = FALSE;
             CGFloat platformX = arc4random_uniform(320);
             CGFloat platformY = arc4random_uniform(80) + _platformYOffset;
             PlatformType platformType = arc4random_uniform(2);
-            _platformYOffset += 40;
+            
+            if ([GameState sharedInstance].difficulty == 0) {
+                _platformYOffset += 80;
+            } else if ([GameState sharedInstance].difficulty == 1) {
+                _platformYOffset += 60;
+            } else if ([GameState sharedInstance].difficulty == 2) {
+                _platformYOffset += 40;
+            }
             
             if (platformY < 85.0f) {
                 _makePlatform = FALSE;
             }
-            if ([GameState sharedInstance].difficulty == 0) {
-                if (fabsf(_lastPlatformX - platformX) < 100.0) {
-                    platformX += 100;
-                }
-                if (fabsf(_lastPlatformHeight - platformY) < 60.0) {
-                    platformY += 60;
-                }
-            } else if ([GameState sharedInstance].difficulty == 1) {
-                if (fabsf(_lastPlatformX - platformX) < 80.0) {
-                    platformX += 80;
-                }
-                if (fabsf(_lastPlatformHeight - platformY) < 50.0) {
-                    platformY += 50;
-                }
-            } else if ([GameState sharedInstance].difficulty == 2) {
-                if (fabsf(_lastPlatformX - platformX) < 60.0) {
-                    platformX += 60;
-                }
-                if (fabsf(_lastPlatformHeight - platformY) < 40.0) {
-                    platformY += 40;
-                }
-            }
             
             if (_makePlatform) {
+                if ([GameState sharedInstance].difficulty == 0) {
+                    if (fabsf(_lastPlatformX - platformX) < 100.0) {
+                        platformX += 100;
+                    }
+                    if (fabsf(_lastPlatformHeight - platformY) < 60.0) {
+                        platformY += 60;
+                    }
+                } else if ([GameState sharedInstance].difficulty == 1) {
+                    if (fabsf(_lastPlatformX - platformX) < 80.0) {
+                        platformX += 80;
+                    }
+                    if (fabsf(_lastPlatformHeight - platformY) < 50.0) {
+                        platformY += 50;
+                    }
+                } else if ([GameState sharedInstance].difficulty == 2) {
+                    if (fabsf(_lastPlatformX - platformX) < 60.0) {
+                        platformX += 60;
+                    }
+                    if (fabsf(_lastPlatformHeight - platformY) < 40.0) {
+                        platformY += 40;
+                    }
+                }
+                
                 PlatformNode *platformNode = [self createPlatformAtPosition:CGPointMake(platformX, platformY) ofType:platformType];
                 [_foregroundNode addChild:platformNode];
                 _lastPlatformHeight = platformY;
@@ -146,35 +154,19 @@ bool moveLeft = FALSE;
             CGFloat starX = arc4random_uniform(320);
             CGFloat starY = arc4random_uniform(140) + _starYOffset;
             StarType starType = arc4random_uniform(2);
-            _starYOffset += 80;
+            
+            if ([GameState sharedInstance].difficulty == 0) {
+                _starYOffset += 500;
+            } else if ([GameState sharedInstance].difficulty == 1) {
+                _starYOffset += 1000;
+            } else if ([GameState sharedInstance].difficulty == 2) {
+                _starYOffset += 1500;
+            }
             
             if (starY < 85.0f) {
                 _makeStar = FALSE;
             }
-            NSLog(@"%f", fabs(_lastStarHeight - starY));
-            if ([GameState sharedInstance].difficulty == 0) {
-                if (fabsf(_lastStarX - starX) < 100.0) {
-                    starX += 100;
-                }
-                if (fabsf(_lastStarHeight - starY) < 3060.0) {
-                    starY += 3060;
-                }
-            } else if ([GameState sharedInstance].difficulty == 1) {
-                if (fabsf(_lastStarX - starX) < 80.0) {
-                    starX += 80;
-                }
-                if (fabsf(_lastStarHeight - starY) < 2750.0) {
-                    starY += 2750;
-                }
-            } else if ([GameState sharedInstance].difficulty == 2) {
-                if (fabsf(_lastStarX - starX) < 60.0) {
-                    starX += 60;
-                }
-                if (fabsf(_lastStarHeight - starY) < 2540.0) {
-                    starY += 2540;
-                }
-            }
-            
+
             if (_makeStar) {
                 StarNode *starNode = [self createStarAtPosition:CGPointMake(starX, starY) ofType:starType];
                 [_foregroundNode addChild:starNode];
@@ -403,12 +395,12 @@ bool moveLeft = FALSE;
     
     if (_player.position.y > _lastPlatformHeight - 200) {
         [self createMorePlatforms];
-        NSLog(@"The last platform height is: %f", _lastPlatformHeight);
+        //NSLOG(@"The last platform height is: %f", _lastPlatformHeight);
     }
     
     if (_player.position.y > _lastStarHeight - 200) {
         [self createMoreStars];
-        NSLog(@"The last star height is: %f", _lastStarHeight);
+        //NSLOG(@"The last star height is: %f", _lastStarHeight);
     }
     
     if ((int)_player.position.y > _maxPlayerY) {
@@ -483,39 +475,47 @@ bool moveLeft = FALSE;
         CGFloat platformX = arc4random_uniform(320);
         CGFloat platformY = (_platformSpacerMultiplier * arc4random_uniform(80)) + _platformYOffset;
         PlatformType platformType = arc4random_uniform(2);
-        _platformYOffset += 40;
+        
+        if ([GameState sharedInstance].difficulty == 0) {
+            _platformYOffset += 80;
+        } else if ([GameState sharedInstance].difficulty == 1) {
+            _platformYOffset += 60;
+        } else if ([GameState sharedInstance].difficulty == 2) {
+            _platformYOffset += 40;
+        }
         
         if (platformY < 85.0f) {
             _makePlatform = FALSE;
         }
-        if ([GameState sharedInstance].difficulty == 0) {
-            if (fabsf(_lastPlatformX - platformX) < 100.0) {
-                platformX += 100;
-            }
-            if (fabsf(_lastPlatformHeight - platformY) < 60.0) {
-                platformY += 60;
-            }
-        } else if ([GameState sharedInstance].difficulty == 1) {
-            if (fabsf(_lastPlatformX - platformX) < 80.0) {
-                platformX += 80;
-            }
-            if (fabsf(_lastPlatformHeight - platformY) < 50.0) {
-                platformY += 50;
-            }
-        } else if ([GameState sharedInstance].difficulty == 2) {
-            if (fabsf(_lastPlatformX - platformX) < 60.0) {
-                platformX += 60;
-            }
-            if (fabsf(_lastPlatformHeight - platformY) < 40.0) {
-                platformY += 40;
-            }
-        }
         
-        NSLog(@"%d", _makePlatform);
+        //NSLOG(@"%d", _makePlatform);
         if (_makePlatform) {
+            if ([GameState sharedInstance].difficulty == 0) {
+                if (fabsf(_lastPlatformX - platformX) < 100.0) {
+                    platformX += 100;
+                }
+                if (fabsf(_lastPlatformHeight - platformY) < 60.0) {
+                    platformY += 60;
+                }
+            } else if ([GameState sharedInstance].difficulty == 1) {
+                if (fabsf(_lastPlatformX - platformX) < 80.0) {
+                    platformX += 80;
+                }
+                if (fabsf(_lastPlatformHeight - platformY) < 50.0) {
+                    platformY += 50;
+                }
+            } else if ([GameState sharedInstance].difficulty == 2) {
+                if (fabsf(_lastPlatformX - platformX) < 60.0) {
+                    platformX += 60;
+                }
+                if (fabsf(_lastPlatformHeight - platformY) < 40.0) {
+                    platformY += 40;
+                }
+            }
+            
             PlatformNode *platformNode = [self createPlatformAtPosition:CGPointMake(platformX, platformY) ofType:platformType];
             [_foregroundNode addChild:platformNode];
-            NSLog(@"Platform made at: (%f, %f)", platformX, platformY);
+            //NSLOG(@"Platform made at: (%f, %f)", platformX, platformY);
             _lastPlatformHeight = platformY;
             
             if ([GameState sharedInstance].difficulty == 0) {
@@ -550,36 +550,43 @@ bool moveLeft = FALSE;
         CGFloat starX = arc4random_uniform(320);
         CGFloat starY = (_starSpacerMultiplier * arc4random_uniform(140)) + _starYOffset;
         StarType starType = arc4random_uniform(2);
-        _starYOffset += 80;
+        
+        if ([GameState sharedInstance].difficulty == 0) {
+            _starYOffset += 500;
+        } else if ([GameState sharedInstance].difficulty == 1) {
+            _starYOffset += 1000;
+        } else if ([GameState sharedInstance].difficulty == 2) {
+            _starYOffset += 1500;
+        }
         
         if (starY < 85.0f) {
             _makeStar = FALSE;
         }
         
-        if ([GameState sharedInstance].difficulty == 0) {
-            if (fabsf(_lastStarX - starX) < 100.0) {
-                starX += 100;
-            }
-            if (fabsf(_lastStarHeight - starY) < 3060.0) {
-                starY += 3060;
-            }
-        } else if ([GameState sharedInstance].difficulty == 1) {
-            if (fabsf(_lastStarX - starX) < 80.0) {
-                starX += 80;
-            }
-            if (fabsf(_lastStarHeight - starY) < 2750.0) {
-                starY += 2750;
-            }
-        } else if ([GameState sharedInstance].difficulty == 2) {
-            if (fabsf(_lastStarX - starX) < 60.0) {
-                starX += 60;
-            }
-            if (fabsf(_lastStarHeight - starY) < 2540.0) {
-                starY += 2540;
-            }
-        }
-        
         if (_makeStar) {
+            if ([GameState sharedInstance].difficulty == 0) {
+                if (fabsf(_lastStarX - starX) < 100.0) {
+                    starX += 100;
+                }
+                if (fabsf(_lastStarHeight - starY) < 3060.0) {
+                    starY += 3060;
+                }
+            } else if ([GameState sharedInstance].difficulty == 1) {
+                if (fabsf(_lastStarX - starX) < 80.0) {
+                    starX += 80;
+                }
+                if (fabsf(_lastStarHeight - starY) < 2750.0) {
+                    starY += 2750;
+                }
+            } else if ([GameState sharedInstance].difficulty == 2) {
+                if (fabsf(_lastStarX - starX) < 60.0) {
+                    starX += 60;
+                }
+                if (fabsf(_lastStarHeight - starY) < 2540.0) {
+                    starY += 2540;
+                }
+            }
+            
             StarNode *starNode = [self createStarAtPosition:CGPointMake(starX, starY) ofType:starType];
             [_foregroundNode addChild:starNode];
             _lastStarHeight = starY;

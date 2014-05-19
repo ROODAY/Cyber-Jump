@@ -12,6 +12,7 @@
 #import "PlatformNode.h"
 #import "EndGameScene.h"
 #import "AweMyScene.h"
+#import "BoostNode.h"
 
 typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     CollisionCategoryPlayer     = 0x1 << 0,
@@ -27,8 +28,10 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     SKNode *_hudNode;
     SKNode *_player;
     SKSpriteNode *_tapToStartNode;
+    SKSpriteNode *_boostButton;
     SKLabelNode *_lblScore;
     SKLabelNode *_lblStars;
+    SKLabelNode *_lblBoosts;
     SKSpriteNode *_dpad;
     SKSpriteNode *_dpadback;
     int _endLevelY;
@@ -42,6 +45,7 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     float _lastStarHeight;
     float _lastPlatformX;
     float _lastStarX;
+    float _boostInterval;
     BOOL _gameOver;
     BOOL _dpadDown;
     BOOL _movingDpad;
@@ -64,6 +68,8 @@ bool moveLeft = FALSE;
     if (self = [super initWithSize:size]) {
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
         _maxPlayerY = 80;
+        _boostInterval = 2500;
+        [GameState sharedInstance].boostsLeft = 3;
         [GameState sharedInstance].score = 0;
         [GameState sharedInstance].stars = 0;
         _gameOver = NO;
@@ -211,6 +217,14 @@ bool moveLeft = FALSE;
         [_lblStars setText:[NSString stringWithFormat:@"X %d", [GameState sharedInstance].stars]];
         [_hudNode addChild:_lblStars];
         
+        _lblBoosts = [SKLabelNode labelNodeWithFontNamed:@"ChalkboardSE-Bold"];
+        _lblBoosts.fontSize = 15;
+        _lblBoosts.fontColor = [SKColor whiteColor];
+        _lblBoosts.position = CGPointMake(320, 50);
+        _lblBoosts.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
+        [_lblBoosts setText:[NSString stringWithFormat:@"Boosts: %d", [GameState sharedInstance].boostsLeft]];
+        [_hudNode addChild:_lblBoosts];
+        
         _lblScore = [SKLabelNode labelNodeWithFontNamed:@"ChalkboardSE-Bold"];
         _lblScore.fontSize = 30;
         _lblScore.fontColor = [SKColor whiteColor];
@@ -218,6 +232,13 @@ bool moveLeft = FALSE;
         _lblScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
         [_lblScore setText:@"0"];
         [_hudNode addChild:_lblScore];
+        
+        _boostButton = [SKSpriteNode spriteNodeWithImageNamed:@"Boost"];
+        _boostButton.name = @"boostButton";
+        _boostButton.position = CGPointMake(300, 27);
+        _boostButton.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_boostButton.size.width/2];
+        _boostButton.physicsBody.dynamic = NO;
+        [_hudNode addChild:_boostButton];
         
         _dpadback = [SKSpriteNode spriteNodeWithImageNamed:@"Dpadback"];
         _dpadback.name = @"dpadback";
@@ -283,6 +304,11 @@ bool moveLeft = FALSE;
     CGPoint location = [touch locationInNode:self];
     SKSpriteNode *node = (SKSpriteNode *)[self nodeAtPoint:location];
     
+    if ([node.name isEqualToString:@"boostButton"] && ([GameState sharedInstance].boostsLeft > 0)) {
+        [_player.physicsBody applyImpulse:CGVectorMake(0.0f, 30.0f)];
+        [GameState sharedInstance].boostsLeft--;
+    }
+    
     if ([node.name isEqualToString:@"dpad"]) {
         _touchX = location.x;
         _dpadDown = YES;
@@ -325,6 +351,24 @@ bool moveLeft = FALSE;
     } else {
         sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Star"];
     }
+    [node addChild:sprite];
+    
+    node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:sprite.size.width/2];
+    node.physicsBody.dynamic = NO;
+    
+    node.physicsBody.categoryBitMask = CollisionCategoryStar;
+    node.physicsBody.collisionBitMask = 0;
+    
+    return node;
+}
+
+- (BoostNode *) createBoostAtPosition:(CGPoint)position
+{
+    BoostNode *node = [BoostNode node];
+    [node setPosition:position];
+    
+    SKSpriteNode *sprite;
+    sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Boost"];
     [node addChild:sprite];
     
     node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:sprite.size.width/2];
@@ -392,7 +436,7 @@ bool moveLeft = FALSE;
 
 - (void) update:(NSTimeInterval)currentTime {
     if (_gameOver) return;
-    
+    NSLog(@"Player: %f Boost Interval: %f", _player.position.y, _boostInterval);
     if (_player.position.y > _lastPlatformHeight - 200) {
         [self createMorePlatforms];
         //NSLOG(@"The last platform height is: %f", _lastPlatformHeight);
@@ -401,6 +445,18 @@ bool moveLeft = FALSE;
     if (_player.position.y > _lastStarHeight - 200) {
         [self createMoreStars];
         //NSLOG(@"The last star height is: %f", _lastStarHeight);
+    }
+    
+    if (_player.position.y > _boostInterval - 200) {
+        BoostNode *boost = [self createBoostAtPosition:CGPointMake(_player.position.x, _boostInterval)];
+        [_foregroundNode addChild:boost];
+        _boostInterval += 2500;
+        NSLog(@"Boost created at (%f, %f)", _player.position.x, _boostInterval);
+        
+    }
+    
+    if ([GameState sharedInstance].boostsLeft <= 0) {
+        [_boostButton removeFromParent];
     }
     
     if ((int)_player.position.y > _maxPlayerY) {
@@ -447,6 +503,8 @@ bool moveLeft = FALSE;
         SKAction *moveDpad = [SKAction moveTo:CGPointMake(_dpadX, _dpadY) duration:0.00001];
         [_dpad runAction:moveDpad];
     }
+    
+    [_lblBoosts setText:[NSString stringWithFormat:@"Boosts: %d", [GameState sharedInstance].boostsLeft]];
 }
 
 - (void) didSimulatePhysics

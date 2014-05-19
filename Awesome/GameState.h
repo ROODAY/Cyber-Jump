@@ -14,6 +14,7 @@
 @property (nonatomic, assign) int highScore;
 @property (nonatomic, assign) int stars;
 @property (nonatomic, assign) int difficulty;
+@property (nonatomic, assign) int boostsLeft;
 @property (nonatomic, assign) float force;
 + (instancetype)sharedInstance;
 - (void) saveState;

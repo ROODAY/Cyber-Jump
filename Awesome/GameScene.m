@@ -305,7 +305,7 @@ bool moveLeft = FALSE;
     SKSpriteNode *node = (SKSpriteNode *)[self nodeAtPoint:location];
     
     if ([node.name isEqualToString:@"boostButton"] && ([GameState sharedInstance].boostsLeft > 0)) {
-        [_player.physicsBody applyImpulse:CGVectorMake(0.0f, 30.0f)];
+        _player.physicsBody.velocity = CGVectorMake(_player.physicsBody.velocity.dx, 750.0f);
         [GameState sharedInstance].boostsLeft--;
     }
     
@@ -447,7 +447,13 @@ bool moveLeft = FALSE;
         //NSLOG(@"The last star height is: %f", _lastStarHeight);
     }
     
-    if (_player.position.y > _boostInterval - 200) {
+    if (_player.physicsBody.velocity.dy >= 1000) {
+        while (_player.physicsBody.velocity.dy >= 1000) {
+            _player.physicsBody.velocity = CGVectorMake(_player.physicsBody.velocity.dx, _player.physicsBody.velocity.dy - 50);
+        }
+    }
+    
+    if (_player.position.y > _boostInterval - 800) {
         BoostNode *boost = [self createBoostAtPosition:CGPointMake(_player.position.x, _boostInterval)];
         [_foregroundNode addChild:boost];
         _boostInterval += 2500;
@@ -456,7 +462,11 @@ bool moveLeft = FALSE;
     }
     
     if ([GameState sharedInstance].boostsLeft <= 0) {
-        [_boostButton removeFromParent];
+        _boostButton.alpha = 0.2;
+    }
+    
+    if ([GameState sharedInstance].boostsLeft > 0) {
+        _boostButton.alpha = 1.0;
     }
     
     if ((int)_player.position.y > _maxPlayerY) {

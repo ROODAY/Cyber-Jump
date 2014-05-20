@@ -20,14 +20,15 @@
 - (BOOL) collisionWithPlayer:(SKNode *)player
 {
     if ([GameState sharedInstance].difficulty == 0) {
-        [GameState sharedInstance].force = 100.0f;
+        [GameState sharedInstance].force = 10.0f;
     } else if ([GameState sharedInstance].difficulty == 1) {
-        [GameState sharedInstance].force = 125.0f;
+        [GameState sharedInstance].force = 15.0f;
     } else if ([GameState sharedInstance].difficulty == 2) {
-        [GameState sharedInstance].force = 150.0f;
+        [GameState sharedInstance].force = 20.0f;
     }
     
-    player.physicsBody.velocity = CGVectorMake(player.physicsBody.velocity.dx, [GameState sharedInstance].force);
+    //player.physicsBody.velocity = CGVectorMake(player.physicsBody.velocity.dx, [GameState sharedInstance].force);
+    [player.physicsBody applyImpulse:CGVectorMake(player.physicsBody.velocity.dx, [GameState sharedInstance].force)];
     [self.parent runAction:_boostSound];
     [GameState sharedInstance].boostsLeft++;
     [self removeFromParent];

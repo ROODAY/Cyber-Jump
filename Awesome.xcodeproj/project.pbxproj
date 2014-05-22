@@ -25,6 +25,7 @@
 		C13E11E818F3102600FCC88A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13E11C018F3102500FCC88A /* UIKit.framework */; };
 		C13E11F018F3102600FCC88A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C13E11EE18F3102600FCC88A /* InfoPlist.strings */; };
 		C13E11F218F3102600FCC88A /* AwesomeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C13E11F118F3102600FCC88A /* AwesomeTests.m */; };
+		C14D2D8D192E7451003C4755 /* PowerUpNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D2D8C192E7451003C4755 /* PowerUpNode.m */; };
 		C15831CC18F86801004EBEAD /* StarPing.wav in Resources */ = {isa = PBXBuildFile; fileRef = C15831CB18F86801004EBEAD /* StarPing.wav */; };
 		C161EDCA18F31363001B77B4 /* Assets.atlas in Resources */ = {isa = PBXBuildFile; fileRef = C161ED9E18F31363001B77B4 /* Assets.atlas */; };
 		C161EDCB18F31363001B77B4 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = C161EDA018F31363001B77B4 /* Background.png */; };
@@ -114,6 +115,8 @@
 		C13E11ED18F3102600FCC88A /* AwesomeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AwesomeTests-Info.plist"; sourceTree = "<group>"; };
 		C13E11EF18F3102600FCC88A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C13E11F118F3102600FCC88A /* AwesomeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeTests.m; sourceTree = "<group>"; };
+		C14D2D8B192E7451003C4755 /* PowerUpNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUpNode.h; sourceTree = "<group>"; };
+		C14D2D8C192E7451003C4755 /* PowerUpNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerUpNode.m; sourceTree = "<group>"; };
 		C15831CB18F86801004EBEAD /* StarPing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = StarPing.wav; sourceTree = "<group>"; };
 		C161ED9E18F31363001B77B4 /* Assets.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Assets.atlas; sourceTree = "<group>"; };
 		C161EDA018F31363001B77B4 /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Background.png; sourceTree = "<group>"; };
@@ -236,6 +239,8 @@
 			children = (
 				C1A1E208191D3E2D00DE83B5 /* GameScene.h */,
 				C1A1E209191D3E2D00DE83B5 /* GameScene.m */,
+				C14D2D8B192E7451003C4755 /* PowerUpNode.h */,
+				C14D2D8C192E7451003C4755 /* PowerUpNode.m */,
 				C13E11CD18F3102600FCC88A /* AweAppDelegate.h */,
 				C13E11CE18F3102600FCC88A /* AweAppDelegate.m */,
 				C15831CB18F86801004EBEAD /* StarPing.wav */,
@@ -494,6 +499,7 @@
 				C1B8D28F190EC2D300256137 /* EndGameScene.m in Sources */,
 				C1A1E20A191D3E2D00DE83B5 /* GameScene.m in Sources */,
 				C1AD5C7E18FDA008006E5CCB /* GameState.m in Sources */,
+				C14D2D8D192E7451003C4755 /* PowerUpNode.m in Sources */,
 				C181E2B118F5A395003E66EF /* GameObjectNode.m in Sources */,
 				C13E11DB18F3102600FCC88A /* AweMyScene.m in Sources */,
 				C13E11D818F3102600FCC88A /* AweViewController.m in Sources */,

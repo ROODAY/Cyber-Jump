@@ -16,6 +16,7 @@ typedef NS_ENUM(int, StarType) {
 typedef NS_ENUM(int, PowerUpType) {
     BOOST,
     JETPACK,
+    STAR,
 };
 
 @interface PowerUpNode : GameObjectNode

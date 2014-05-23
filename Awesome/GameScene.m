@@ -11,7 +11,6 @@
 #import "PlatformNode.h"
 #import "EndGameScene.h"
 #import "AweMyScene.h"
-#import "BoostNode.h"
 #import "PowerUpNode.h"
 
 typedef NS_OPTIONS(uint32_t, CollisionCategory) {
@@ -42,27 +41,21 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     int _dpadX;
     int _dpadY;
     int _platformYOffset;
-    int _starYOffset;
     int _powerUpYOffset;
     
     float _lastPlatformHeight;
     float _lastPowerUpHeight;
     float _lastPowerUpX;
-    float _lastStarHeight;
     float _lastPlatformX;
-    float _lastStarX;
-    float _boostInterval;
     float _touchX;
     float _platformSpacerMultiplier;
-    float _starSpacerMultiplier;
+    float _powerUpSpacerMultiplier;
     
     BOOL _gameOver;
     BOOL _dpadDown;
     BOOL _movingDpad;
     BOOL _makePlatform;
-    BOOL _makeStar;
     BOOL _makePowerUp;
-    BOOL _skipStar;
     BOOL _skipPowerUp;
     BOOL _skipPlatform;
 }
@@ -78,7 +71,6 @@ bool moveLeft = FALSE;
     if (self = [super initWithSize:size]) {
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
         _maxPlayerY = 80;
-        _boostInterval = 2500;
         [GameState sharedInstance].boostsLeft = 3;
         [GameState sharedInstance].score = 0;
         [GameState sharedInstance].stars = 0;
@@ -162,49 +154,6 @@ bool moveLeft = FALSE;
                 _makePlatform = TRUE;
             }
         }
-        /*
-        _makeStar = TRUE;
-        _skipStar = FALSE;
-        _starYOffset = 0;
-        for (int starCounter = 0; starCounter <= 100; starCounter++) {
-            CGFloat starX = arc4random_uniform(320);
-            CGFloat starY = arc4random_uniform(140) + _starYOffset;
-            StarType starType = arc4random_uniform(2);
-            
-            if ([GameState sharedInstance].difficulty == 0) {
-                _starYOffset += 500;
-            } else if ([GameState sharedInstance].difficulty == 1) {
-                _starYOffset += 1000;
-            } else if ([GameState sharedInstance].difficulty == 2) {
-                _starYOffset += 1500;
-            }
-            
-            if (starY < 85.0f) {
-                _makeStar = FALSE;
-            }
-
-            if (_makeStar) {
-                StarNode *starNode = [self createStarAtPosition:CGPointMake(starX, starY) ofType:starType];
-                [_foregroundNode addChild:starNode];
-                _lastStarHeight = starY;
-                _lastStarX = starX;
-                
-                if ([GameState sharedInstance].difficulty == 0) {
-                    _makeStar = TRUE;
-                } else if ([GameState sharedInstance].difficulty == 1) {
-                    _makeStar = FALSE;
-                } else if ([GameState sharedInstance].difficulty == 2) {
-                    _makeStar = FALSE;
-                    _skipStar = TRUE;
-                }
-            } else if (!_makeStar && _skipStar) {
-                _makeStar = FALSE;
-                _skipStar = FALSE;
-            } else if (!_makeStar) {
-                _makeStar = TRUE;
-            }
-            
-        }*/
         
         _makePowerUp = TRUE;
         _skipPowerUp = FALSE;
@@ -223,14 +172,14 @@ bool moveLeft = FALSE;
             }
             
             if (y < 85.0f) {
-                _makeStar = FALSE;
+                _makePowerUp = FALSE;
             }
             
             if (_makePowerUp) {
                 PowerUpNode *node = [self createPowerUpAtPosition:CGPointMake(x, y) ofType:type];
                 [_foregroundNode addChild:node];
-                _lastStarHeight = y;
-                _lastStarX = x;
+                _lastPowerUpHeight = y;
+                _lastPowerUpX = x;
                 
                 if ([GameState sharedInstance].difficulty == 0) {
                     _makePowerUp = TRUE;
@@ -429,24 +378,6 @@ bool moveLeft = FALSE;
     return node;
 }*/
 
-- (BoostNode *) createBoostAtPosition:(CGPoint)position
-{
-    BoostNode *node = [BoostNode node];
-    [node setPosition:position];
-    
-    SKSpriteNode *sprite;
-    sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Boost"];
-    [node addChild:sprite];
-    
-    node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:sprite.size.width/2];
-    node.physicsBody.dynamic = NO;
-    
-    node.physicsBody.categoryBitMask = CollisionCategoryStar;
-    node.physicsBody.collisionBitMask = 0;
-    
-    return node;
-}
-
 - (PlatformNode *) createPlatformAtPosition:(CGPoint)position ofType:(PlatformType)type
 {
     PlatformNode *node = [PlatformNode node];
@@ -473,13 +404,10 @@ bool moveLeft = FALSE;
 - (void) createMorePlatforms {
     if ([GameState sharedInstance].difficulty == 0) {
         _platformSpacerMultiplier = 1.5;
-        _starSpacerMultiplier = 1.5;
     } else if ([GameState sharedInstance].difficulty == 1) {
         _platformSpacerMultiplier = 1.0;
-        _starSpacerMultiplier = 1.0;
     } else if ([GameState sharedInstance].difficulty == 2) {
         _platformSpacerMultiplier = 0.5;
-        _starSpacerMultiplier = 0.5;
     }
     
     for (int platformCounter = 0; platformCounter <= 100; platformCounter++) {
@@ -499,7 +427,6 @@ bool moveLeft = FALSE;
             _makePlatform = FALSE;
         }
         
-        //NSLOG(@"%d", _makePlatform);
         if (_makePlatform) {
             if ([GameState sharedInstance].difficulty == 0) {
                 if (fabsf(_lastPlatformX - platformX) < 100.0) {
@@ -526,7 +453,6 @@ bool moveLeft = FALSE;
             
             PlatformNode *platformNode = [self createPlatformAtPosition:CGPointMake(platformX, platformY) ofType:platformType];
             [_foregroundNode addChild:platformNode];
-            //NSLOG(@"Platform made at: (%f, %f)", platformX, platformY);
             _lastPlatformHeight = platformY;
             
             if ([GameState sharedInstance].difficulty == 0) {
@@ -537,87 +463,84 @@ bool moveLeft = FALSE;
                 _makePlatform = FALSE;
                 _skipPlatform = TRUE;
             }
-        } else if (!_makePlatform) {
-            _makePlatform = TRUE;
         } else if (!_makePlatform && _skipPlatform) {
             _makePlatform = FALSE;
+        } else if (!_makePlatform) {
+            _makePlatform = TRUE;
         }
     }
 }
-/*
-- (void)  createMoreStars {
+
+- (void)  createMorePowerUps {
     if ([GameState sharedInstance].difficulty == 0) {
-        _platformSpacerMultiplier = 1.5;
-        _starSpacerMultiplier = 1.5;
+        _powerUpSpacerMultiplier = 1.5;
     } else if ([GameState sharedInstance].difficulty == 1) {
-        _platformSpacerMultiplier = 1.0;
-        _starSpacerMultiplier = 1.0;
+        _powerUpSpacerMultiplier = 1.0;
     } else if ([GameState sharedInstance].difficulty == 2) {
-        _platformSpacerMultiplier = 0.5;
-        _starSpacerMultiplier = 0.5;
+        _powerUpSpacerMultiplier = 0.5;
     }
     
     for (int starCounter = 0; starCounter <= 100; starCounter++) {
-        CGFloat starX = arc4random_uniform(320);
-        CGFloat starY = (_starSpacerMultiplier * arc4random_uniform(140)) + _starYOffset;
-        StarType starType = arc4random_uniform(2);
+        CGFloat x = arc4random_uniform(320);
+        CGFloat y = (_powerUpSpacerMultiplier * arc4random_uniform(140)) + _powerUpYOffset;
+        PowerUpType type = arc4random_uniform(3);
         
         if ([GameState sharedInstance].difficulty == 0) {
-            _starYOffset += 500;
+            _powerUpYOffset += 500;
         } else if ([GameState sharedInstance].difficulty == 1) {
-            _starYOffset += 1000;
+            _powerUpYOffset += 1000;
         } else if ([GameState sharedInstance].difficulty == 2) {
-            _starYOffset += 1500;
+            _powerUpYOffset += 1500;
         }
         
-        if (starY < 85.0f) {
-            _makeStar = FALSE;
+        if (y < 85.0f) {
+            _makePowerUp = FALSE;
         }
         
-        if (_makeStar) {
+        if (_makePowerUp) {
             if ([GameState sharedInstance].difficulty == 0) {
-                if (fabsf(_lastStarX - starX) < 100.0) {
-                    starX += 100;
+                if (fabsf(_lastPowerUpX - x) < 100.0) {
+                    x += 100;
                 }
-                if (fabsf(_lastStarHeight - starY) < 3060.0) {
-                    starY += 3060;
+                if (fabsf(_lastPowerUpHeight - y) < 3060.0) {
+                    y += 3060;
                 }
             } else if ([GameState sharedInstance].difficulty == 1) {
-                if (fabsf(_lastStarX - starX) < 80.0) {
-                    starX += 80;
+                if (fabsf(_lastPowerUpX - x) < 80.0) {
+                    x += 80;
                 }
-                if (fabsf(_lastStarHeight - starY) < 2750.0) {
-                    starY += 2750;
+                if (fabsf(_lastPowerUpHeight - y) < 2750.0) {
+                    y += 2750;
                 }
             } else if ([GameState sharedInstance].difficulty == 2) {
-                if (fabsf(_lastStarX - starX) < 60.0) {
-                    starX += 60;
+                if (fabsf(_lastPowerUpX - x) < 60.0) {
+                    x += 60;
                 }
-                if (fabsf(_lastStarHeight - starY) < 2540.0) {
-                    starY += 2540;
+                if (fabsf(_lastPowerUpHeight - y) < 2540.0) {
+                    y += 2540;
                 }
             }
             
-            StarNode *starNode = [self createStarAtPosition:CGPointMake(starX, starY) ofType:starType];
-            [_foregroundNode addChild:starNode];
-            _lastStarHeight = starY;
+            PowerUpNode *node = [self createPowerUpAtPosition:CGPointMake(x, y) ofType:type];
+            [_foregroundNode addChild:node];
+            _lastPowerUpHeight = y;
             
             if ([GameState sharedInstance].difficulty == 0) {
-                _makeStar = TRUE;
+                _makePowerUp = TRUE;
             } else if ([GameState sharedInstance].difficulty == 1) {
-                _makeStar = FALSE;
+                _makePowerUp = FALSE;
             } else if ([GameState sharedInstance].difficulty == 2) {
-                _makeStar = FALSE;
-                _skipStar = TRUE;
+                _makePowerUp = FALSE;
+                _skipPowerUp = TRUE;
             }
-        } else if (!_makeStar) {
-            _makeStar = TRUE;
-        } else if (!_makeStar && _skipStar) {
-            _makeStar = FALSE;
+        } else if (!_makePowerUp && _skipPowerUp) {
+            _makePowerUp = FALSE;
+        } else if (!_makePowerUp) {
+            _makePowerUp = TRUE;
         }
         
     }
-}*/
+}
 
 - (void) didBeginContact:(SKPhysicsContact *)contact
 {
@@ -673,15 +596,12 @@ bool moveLeft = FALSE;
 
 - (void) update:(NSTimeInterval)currentTime {
     if (_gameOver) return;
-    //NSLog(@"Player: %f Boost Interval: %f", _player.position.y, _boostInterval);
     if (_player.position.y > _lastPlatformHeight - 200) {
         [self createMorePlatforms];
-        //NSLOG(@"The last platform height is: %f", _lastPlatformHeight);
     }
     
-    if (_player.position.y > _lastStarHeight - 200) {
-        //[self createMoreStars];
-        //NSLOG(@"The last star height is: %f", _lastStarHeight);
+    if (_player.position.y > _lastPowerUpHeight - 200) {
+        [self createMorePowerUps];
     }
     
     if (_player.physicsBody.velocity.dy >= 1000) {
@@ -690,20 +610,16 @@ bool moveLeft = FALSE;
         }
     }
     
-    if (_player.position.y > _boostInterval - 800) {
-        BoostNode *boost = [self createBoostAtPosition:CGPointMake(_player.position.x, _boostInterval)];
-        [_foregroundNode addChild:boost];
-        _boostInterval += 2500;
-        NSLog(@"Boost created at (%f, %f)", _player.position.x, _boostInterval);
-        
-    }
-    
     if ([GameState sharedInstance].boostsLeft <= 0) {
         _boostButton.alpha = 0.2;
+        _lblBoosts.alpha = 0.2;
+        _lblBoosts.fontColor = [SKColor redColor];
     }
     
     if ([GameState sharedInstance].boostsLeft > 0) {
         _boostButton.alpha = 1.0;
+        _lblBoosts.alpha = 1.0;
+        _lblBoosts.fontColor = [SKColor whiteColor];
     }
     
     if ((int)_player.position.y > _maxPlayerY) {

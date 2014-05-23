@@ -18,7 +18,6 @@
 		C13E11D518F3102600FCC88A /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C13E11D318F3102600FCC88A /* Main_iPad.storyboard */; };
 		C13E11D818F3102600FCC88A /* AweViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C13E11D718F3102600FCC88A /* AweViewController.m */; };
 		C13E11DB18F3102600FCC88A /* AweMyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C13E11DA18F3102600FCC88A /* AweMyScene.m */; };
-		C13E11DD18F3102600FCC88A /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = C13E11DC18F3102600FCC88A /* Spaceship.png */; };
 		C13E11DF18F3102600FCC88A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C13E11DE18F3102600FCC88A /* Images.xcassets */; };
 		C13E11E618F3102600FCC88A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13E11E518F3102600FCC88A /* XCTest.framework */; };
 		C13E11E718F3102600FCC88A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13E11BC18F3102500FCC88A /* Foundation.framework */; };
@@ -71,9 +70,7 @@
 		C161EDF318F31363001B77B4 /* Background20@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C161EDC818F31363001B77B4 /* Background20@2x.png */; };
 		C161EDF418F31363001B77B4 /* Background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C161EDC918F31363001B77B4 /* Background@2x.png */; };
 		C181E2B118F5A395003E66EF /* GameObjectNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B018F5A395003E66EF /* GameObjectNode.m */; };
-		C181E2B418F5A46C003E66EF /* StarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B318F5A46C003E66EF /* StarNode.m */; };
 		C181E2B718F5AA36003E66EF /* PlatformNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C181E2B618F5AA36003E66EF /* PlatformNode.m */; };
-		C186BA3018F70AB400781FDC /* Level01.plist in Resources */ = {isa = PBXBuildFile; fileRef = C186BA2F18F70AB400781FDC /* Level01.plist */; };
 		C1A1E20A191D3E2D00DE83B5 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C1A1E209191D3E2D00DE83B5 /* GameScene.m */; };
 		C1AD5C7E18FDA008006E5CCB /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD5C7D18FDA008006E5CCB /* GameState.m */; };
 		C1B8D28F190EC2D300256137 /* EndGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C1B8D28E190EC2D300256137 /* EndGameScene.m */; };
@@ -108,7 +105,6 @@
 		C13E11D718F3102600FCC88A /* AweViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AweViewController.m; sourceTree = "<group>"; };
 		C13E11D918F3102600FCC88A /* AweMyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AweMyScene.h; sourceTree = "<group>"; };
 		C13E11DA18F3102600FCC88A /* AweMyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AweMyScene.m; sourceTree = "<group>"; };
-		C13E11DC18F3102600FCC88A /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
 		C13E11DE18F3102600FCC88A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C13E11E418F3102600FCC88A /* AwesomeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AwesomeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C13E11E518F3102600FCC88A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -163,11 +159,8 @@
 		C161EDC918F31363001B77B4 /* Background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Background@2x.png"; sourceTree = "<group>"; };
 		C181E2AF18F5A395003E66EF /* GameObjectNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObjectNode.h; sourceTree = "<group>"; };
 		C181E2B018F5A395003E66EF /* GameObjectNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObjectNode.m; sourceTree = "<group>"; };
-		C181E2B218F5A46C003E66EF /* StarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarNode.h; sourceTree = "<group>"; };
-		C181E2B318F5A46C003E66EF /* StarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarNode.m; sourceTree = "<group>"; };
 		C181E2B518F5AA36003E66EF /* PlatformNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformNode.h; sourceTree = "<group>"; };
 		C181E2B618F5AA36003E66EF /* PlatformNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlatformNode.m; sourceTree = "<group>"; };
-		C186BA2F18F70AB400781FDC /* Level01.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Level01.plist; sourceTree = "<group>"; };
 		C1A1E208191D3E2D00DE83B5 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		C1A1E209191D3E2D00DE83B5 /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
 		C1AD5C7C18FDA008006E5CCB /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
@@ -248,7 +241,6 @@
 				C13E11D318F3102600FCC88A /* Main_iPad.storyboard */,
 				C13E11D618F3102600FCC88A /* AweViewController.h */,
 				C13E11D718F3102600FCC88A /* AweViewController.m */,
-				C186BA2F18F70AB400781FDC /* Level01.plist */,
 				C161ED9E18F31363001B77B4 /* Assets.atlas */,
 				C161ED9F18F31363001B77B4 /* Backgrounds */,
 				C13E11D918F3102600FCC88A /* AweMyScene.h */,
@@ -259,13 +251,10 @@
 				C1AD5C7D18FDA008006E5CCB /* GameState.m */,
 				C181E2AF18F5A395003E66EF /* GameObjectNode.h */,
 				C181E2B018F5A395003E66EF /* GameObjectNode.m */,
-				C181E2B218F5A46C003E66EF /* StarNode.h */,
-				C181E2B318F5A46C003E66EF /* StarNode.m */,
 				C181E2B518F5AA36003E66EF /* PlatformNode.h */,
 				C1BA8F23192A81D7009BD658 /* BoostNode.h */,
 				C1BA8F24192A81D7009BD658 /* BoostNode.m */,
 				C181E2B618F5AA36003E66EF /* PlatformNode.m */,
-				C13E11DC18F3102600FCC88A /* Spaceship.png */,
 				C13E11DE18F3102600FCC88A /* Images.xcassets */,
 				C13E11C518F3102500FCC88A /* Supporting Files */,
 			);
@@ -427,11 +416,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C13E11DD18F3102600FCC88A /* Spaceship.png in Resources */,
 				C13E11DF18F3102600FCC88A /* Images.xcassets in Resources */,
 				C161EDF318F31363001B77B4 /* Background20@2x.png in Resources */,
 				C13E11D518F3102600FCC88A /* Main_iPad.storyboard in Resources */,
-				C186BA3018F70AB400781FDC /* Level01.plist in Resources */,
 				C161EDEC18F31363001B77B4 /* Background17.png in Resources */,
 				C161EDD718F31363001B77B4 /* Background06@2x.png in Resources */,
 				C161EDEB18F31363001B77B4 /* Background16@2x.png in Resources */,
@@ -506,7 +493,6 @@
 				C1BA8F25192A81D7009BD658 /* BoostNode.m in Sources */,
 				C13E11CF18F3102600FCC88A /* AweAppDelegate.m in Sources */,
 				C13E11CB18F3102500FCC88A /* main.m in Sources */,
-				C181E2B418F5A46C003E66EF /* StarNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

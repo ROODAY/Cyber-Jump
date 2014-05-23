@@ -7,7 +7,6 @@
 //
 
 #import "GameScene.h"
-#import "StarNode.h"
 #import "GameObjectNode.h"
 #import "PlatformNode.h"
 #import "EndGameScene.h"
@@ -39,14 +38,16 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     SKLabelNode *_lblStars;
     SKLabelNode *_lblBoosts;
     
-    int _endLevelY;
     int _maxPlayerY;
     int _dpadX;
     int _dpadY;
     int _platformYOffset;
     int _starYOffset;
+    int _powerUpYOffset;
     
     float _lastPlatformHeight;
+    float _lastPowerUpHeight;
+    float _lastPowerUpX;
     float _lastStarHeight;
     float _lastPlatformX;
     float _lastStarX;
@@ -60,7 +61,9 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     BOOL _movingDpad;
     BOOL _makePlatform;
     BOOL _makeStar;
+    BOOL _makePowerUp;
     BOOL _skipStar;
+    BOOL _skipPowerUp;
     BOOL _skipPlatform;
 }
 @end
@@ -159,7 +162,7 @@ bool moveLeft = FALSE;
                 _makePlatform = TRUE;
             }
         }
-        
+        /*
         _makeStar = TRUE;
         _skipStar = FALSE;
         _starYOffset = 0;
@@ -201,9 +204,50 @@ bool moveLeft = FALSE;
                 _makeStar = TRUE;
             }
             
-        }
+        }*/
         
-        _endLevelY = _lastStarHeight + _lastPlatformHeight;
+        _makePowerUp = TRUE;
+        _skipPowerUp = FALSE;
+        _powerUpYOffset = 0;
+        for (int counter = 0; counter <= 100; counter++) {
+            CGFloat x = arc4random_uniform(320);
+            CGFloat y = arc4random_uniform(140) + _powerUpYOffset;
+            PowerUpType type = arc4random_uniform(3);
+            
+            if ([GameState sharedInstance].difficulty == 0) {
+                _powerUpYOffset += 500;
+            } else if ([GameState sharedInstance].difficulty == 1) {
+                _powerUpYOffset += 1000;
+            } else if ([GameState sharedInstance].difficulty == 2) {
+                _powerUpYOffset += 1500;
+            }
+            
+            if (y < 85.0f) {
+                _makeStar = FALSE;
+            }
+            
+            if (_makePowerUp) {
+                PowerUpNode *node = [self createPowerUpAtPosition:CGPointMake(x, y) ofType:type];
+                [_foregroundNode addChild:node];
+                _lastStarHeight = y;
+                _lastStarX = x;
+                
+                if ([GameState sharedInstance].difficulty == 0) {
+                    _makePowerUp = TRUE;
+                } else if ([GameState sharedInstance].difficulty == 1) {
+                    _makePowerUp = FALSE;
+                } else if ([GameState sharedInstance].difficulty == 2) {
+                    _makePowerUp = FALSE;
+                    _skipPowerUp = TRUE;
+                }
+            } else if (!_makePowerUp && _skipPowerUp) {
+                _makePowerUp = FALSE;
+                _skipPowerUp = FALSE;
+            } else if (!_makePowerUp) {
+                _makePowerUp = TRUE;
+            }
+            
+        }
         
         _player = [self createPlayer];
         [_foregroundNode addChild:_player];
@@ -360,7 +404,7 @@ bool moveLeft = FALSE;
     
     return node;
 }
-
+/*
 - (StarNode *) createStarAtPosition:(CGPoint)position ofType:(StarType)type
 {
     StarNode *node = [StarNode node];
@@ -383,7 +427,7 @@ bool moveLeft = FALSE;
     node.physicsBody.collisionBitMask = 0;
     
     return node;
-}
+}*/
 
 - (BoostNode *) createBoostAtPosition:(CGPoint)position
 {
@@ -500,7 +544,7 @@ bool moveLeft = FALSE;
         }
     }
 }
-
+/*
 - (void)  createMoreStars {
     if ([GameState sharedInstance].difficulty == 0) {
         _platformSpacerMultiplier = 1.5;
@@ -573,7 +617,7 @@ bool moveLeft = FALSE;
         }
         
     }
-}
+}*/
 
 - (void) didBeginContact:(SKPhysicsContact *)contact
 {
@@ -629,14 +673,14 @@ bool moveLeft = FALSE;
 
 - (void) update:(NSTimeInterval)currentTime {
     if (_gameOver) return;
-    NSLog(@"Player: %f Boost Interval: %f", _player.position.y, _boostInterval);
+    //NSLog(@"Player: %f Boost Interval: %f", _player.position.y, _boostInterval);
     if (_player.position.y > _lastPlatformHeight - 200) {
         [self createMorePlatforms];
         //NSLOG(@"The last platform height is: %f", _lastPlatformHeight);
     }
     
     if (_player.position.y > _lastStarHeight - 200) {
-        [self createMoreStars];
+        //[self createMoreStars];
         //NSLOG(@"The last star height is: %f", _lastStarHeight);
     }
     
@@ -672,7 +716,7 @@ bool moveLeft = FALSE;
         [((PlatformNode *)node) checkNodeRemoval:_player.position.y];
     }];
     [_foregroundNode enumerateChildNodesWithName:@"NODE_STAR" usingBlock:^(SKNode *node, BOOL *stop) {
-        [((StarNode *)node) checkNodeRemoval:_player.position.y];
+        [((PowerUpNode *)node) checkNodeRemoval:_player.position.y];
     }];
     
     if (_player.position.y > 200.0f) {

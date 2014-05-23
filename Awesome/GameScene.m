@@ -542,18 +542,6 @@ bool moveLeft = FALSE;
     }
 }
 
-- (void) didBeginContact:(SKPhysicsContact *)contact
-{
-    BOOL updateHUD = NO;
-    SKNode *other = (contact.bodyA.node != _player) ? contact.bodyA.node : contact.bodyB.node;
-    updateHUD = [(GameObjectNode *)other collisionWithPlayer:_player];
-    
-    if (updateHUD) {
-        [_lblStars setText:[NSString stringWithFormat:@"X %d", [GameState sharedInstance].stars]];
-        [_lblScore setText:[NSString stringWithFormat:@"%d", [GameState sharedInstance].score]];
-    }
-}
-
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
@@ -588,6 +576,18 @@ bool moveLeft = FALSE;
     }
 }
 
+- (void) didBeginContact:(SKPhysicsContact *)contact
+{
+    BOOL updateHUD = NO;
+    SKNode *other = (contact.bodyA.node != _player) ? contact.bodyA.node : contact.bodyB.node;
+    updateHUD = [(GameObjectNode *)other collisionWithPlayer:_player];
+    
+    if (updateHUD) {
+        [_lblStars setText:[NSString stringWithFormat:@"X %d", [GameState sharedInstance].stars]];
+        [_lblScore setText:[NSString stringWithFormat:@"%d", [GameState sharedInstance].score]];
+    }
+}
+
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     _dpadDown = NO;
@@ -596,31 +596,6 @@ bool moveLeft = FALSE;
 
 - (void) update:(NSTimeInterval)currentTime {
     if (_gameOver) return;
-    if (_player.position.y > _lastPlatformHeight - 200) {
-        [self createMorePlatforms];
-    }
-    
-    if (_player.position.y > _lastPowerUpHeight - 200) {
-        [self createMorePowerUps];
-    }
-    
-    if (_player.physicsBody.velocity.dy >= 1000) {
-        while (_player.physicsBody.velocity.dy >= 1000) {
-            _player.physicsBody.velocity = CGVectorMake(_player.physicsBody.velocity.dx, _player.physicsBody.velocity.dy - 50);
-        }
-    }
-    
-    if ([GameState sharedInstance].boostsLeft <= 0) {
-        _boostButton.alpha = 0.2;
-        _lblBoosts.alpha = 0.2;
-        _lblBoosts.fontColor = [SKColor redColor];
-    }
-    
-    if ([GameState sharedInstance].boostsLeft > 0) {
-        _boostButton.alpha = 1.0;
-        _lblBoosts.alpha = 1.0;
-        _lblBoosts.fontColor = [SKColor whiteColor];
-    }
     
     if ((int)_player.position.y > _maxPlayerY) {
         [GameState sharedInstance].score += (int)_player.position.y - _maxPlayerY;
@@ -635,15 +610,37 @@ bool moveLeft = FALSE;
         [((PowerUpNode *)node) checkNodeRemoval:_player.position.y];
     }];
     
+    if (_player.physicsBody.velocity.dy >= 1000) {
+        while (_player.physicsBody.velocity.dy >= 1000) {
+            _player.physicsBody.velocity = CGVectorMake(_player.physicsBody.velocity.dx, _player.physicsBody.velocity.dy - 50);
+        }
+    }
+    
+    if (_player.position.y > _lastPlatformHeight - 200) {
+        [self createMorePlatforms];
+    }
+    if (_player.position.y > _lastPowerUpHeight - 200) {
+        [self createMorePowerUps];
+    }
     if (_player.position.y > 200.0f) {
         _backgroundNode.position = CGPointMake(0.0f, -((_player.position.y - 200.0f)/10));
         _midgroundNode.position = CGPointMake(0.0f, -((_player.position.y - 200.0f)/4));
         _foregroundNode.position = CGPointMake(0.0f, -(_player.position.y - 200.0f));
     }
-    
     if (_player.position.y < (_maxPlayerY - 400)) {
         [self endGame];
     }
+    
+    if ([GameState sharedInstance].boostsLeft <= 0) {
+        _boostButton.alpha = 0.2;
+        _lblBoosts.alpha = 0.2;
+        _lblBoosts.fontColor = [SKColor redColor];
+    } else if ([GameState sharedInstance].boostsLeft > 0) {
+        _boostButton.alpha = 1.0;
+        _lblBoosts.alpha = 1.0;
+        _lblBoosts.fontColor = [SKColor whiteColor];
+    }
+    [_lblBoosts setText:[NSString stringWithFormat:@"Boosts: %d", [GameState sharedInstance].boostsLeft]];
     
     if (_dpadDown) {
         float angle = atan2f(0, _touchX - _dpadX);
@@ -661,13 +658,10 @@ bool moveLeft = FALSE;
         SKAction *movePlayer = [SKAction moveByX:0.25*(distance)*cosf(angle) y:0 duration:0.005];
         [_player runAction:movePlayer];
     }
-    
     if (!_dpadDown) {
         SKAction *moveDpad = [SKAction moveTo:CGPointMake(_dpadX, _dpadY) duration:0.00001];
         [_dpad runAction:moveDpad];
     }
-    
-    [_lblBoosts setText:[NSString stringWithFormat:@"Boosts: %d", [GameState sharedInstance].boostsLeft]];
 }
 
 - (void) didSimulatePhysics

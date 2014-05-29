@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C12013741937A8D500DE5E98 /* platform.wav in Resources */ = {isa = PBXBuildFile; fileRef = C12013721937A8D500DE5E98 /* platform.wav */; };
+		C12013751937A8D500DE5E98 /* star.wav in Resources */ = {isa = PBXBuildFile; fileRef = C12013731937A8D500DE5E98 /* star.wav */; };
+		C12013781937A8DC00DE5E98 /* boost.wav in Resources */ = {isa = PBXBuildFile; fileRef = C12013761937A8DC00DE5E98 /* boost.wav */; };
+		C12013791937A8DC00DE5E98 /* brokenplatform.wav in Resources */ = {isa = PBXBuildFile; fileRef = C12013771937A8DC00DE5E98 /* brokenplatform.wav */; };
 		C13E11BD18F3102500FCC88A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13E11BC18F3102500FCC88A /* Foundation.framework */; };
 		C13E11BF18F3102500FCC88A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13E11BE18F3102500FCC88A /* CoreGraphics.framework */; };
 		C13E11C118F3102500FCC88A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13E11C018F3102500FCC88A /* UIKit.framework */; };
@@ -25,7 +29,6 @@
 		C13E11F018F3102600FCC88A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C13E11EE18F3102600FCC88A /* InfoPlist.strings */; };
 		C13E11F218F3102600FCC88A /* AwesomeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C13E11F118F3102600FCC88A /* AwesomeTests.m */; };
 		C14D2D8D192E7451003C4755 /* PowerUpNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D2D8C192E7451003C4755 /* PowerUpNode.m */; };
-		C15831CC18F86801004EBEAD /* StarPing.wav in Resources */ = {isa = PBXBuildFile; fileRef = C15831CB18F86801004EBEAD /* StarPing.wav */; };
 		C161EDCA18F31363001B77B4 /* Assets.atlas in Resources */ = {isa = PBXBuildFile; fileRef = C161ED9E18F31363001B77B4 /* Assets.atlas */; };
 		C161EDCB18F31363001B77B4 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = C161EDA018F31363001B77B4 /* Background.png */; };
 		C161EDCC18F31363001B77B4 /* Background01.png in Resources */ = {isa = PBXBuildFile; fileRef = C161EDA118F31363001B77B4 /* Background01.png */; };
@@ -87,6 +90,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C12013721937A8D500DE5E98 /* platform.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = platform.wav; sourceTree = "<group>"; };
+		C12013731937A8D500DE5E98 /* star.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = star.wav; sourceTree = "<group>"; };
+		C12013761937A8DC00DE5E98 /* boost.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = boost.wav; sourceTree = "<group>"; };
+		C12013771937A8DC00DE5E98 /* brokenplatform.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = brokenplatform.wav; sourceTree = "<group>"; };
 		C13E11B918F3102500FCC88A /* Awesome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Awesome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C13E11BC18F3102500FCC88A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C13E11BE18F3102500FCC88A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -112,7 +119,6 @@
 		C13E11F118F3102600FCC88A /* AwesomeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeTests.m; sourceTree = "<group>"; };
 		C14D2D8B192E7451003C4755 /* PowerUpNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUpNode.h; sourceTree = "<group>"; };
 		C14D2D8C192E7451003C4755 /* PowerUpNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerUpNode.m; sourceTree = "<group>"; };
-		C15831CB18F86801004EBEAD /* StarPing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = StarPing.wav; sourceTree = "<group>"; };
 		C161ED9E18F31363001B77B4 /* Assets.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Assets.atlas; sourceTree = "<group>"; };
 		C161EDA018F31363001B77B4 /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Background.png; sourceTree = "<group>"; };
 		C161EDA118F31363001B77B4 /* Background01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Background01.png; sourceTree = "<group>"; };
@@ -227,6 +233,10 @@
 		C13E11C418F3102500FCC88A /* Awesome */ = {
 			isa = PBXGroup;
 			children = (
+				C12013761937A8DC00DE5E98 /* boost.wav */,
+				C12013771937A8DC00DE5E98 /* brokenplatform.wav */,
+				C12013721937A8D500DE5E98 /* platform.wav */,
+				C12013731937A8D500DE5E98 /* star.wav */,
 				C161ED9E18F31363001B77B4 /* Assets.atlas */,
 				C13E11CD18F3102600FCC88A /* AweAppDelegate.h */,
 				C13E11CE18F3102600FCC88A /* AweAppDelegate.m */,
@@ -250,7 +260,6 @@
 				C181E2B618F5AA36003E66EF /* PlatformNode.m */,
 				C14D2D8B192E7451003C4755 /* PowerUpNode.h */,
 				C14D2D8C192E7451003C4755 /* PowerUpNode.m */,
-				C15831CB18F86801004EBEAD /* StarPing.wav */,
 				C13E11C518F3102500FCC88A /* Supporting Files */,
 			);
 			path = Awesome;
@@ -411,15 +420,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C12013791937A8DC00DE5E98 /* brokenplatform.wav in Resources */,
 				C13E11DF18F3102600FCC88A /* Images.xcassets in Resources */,
 				C161EDF318F31363001B77B4 /* Background20@2x.png in Resources */,
+				C12013781937A8DC00DE5E98 /* boost.wav in Resources */,
 				C13E11D518F3102600FCC88A /* Main_iPad.storyboard in Resources */,
 				C161EDEC18F31363001B77B4 /* Background17.png in Resources */,
 				C161EDD718F31363001B77B4 /* Background06@2x.png in Resources */,
 				C161EDEB18F31363001B77B4 /* Background16@2x.png in Resources */,
 				C161EDDB18F31363001B77B4 /* Background08@2x.png in Resources */,
 				C161EDE018F31363001B77B4 /* Background11.png in Resources */,
-				C15831CC18F86801004EBEAD /* StarPing.wav in Resources */,
 				C161EDDF18F31363001B77B4 /* Background10@2x.png in Resources */,
 				C161EDE418F31363001B77B4 /* Background13.png in Resources */,
 				C161EDD218F31363001B77B4 /* Background04.png in Resources */,
@@ -441,6 +451,7 @@
 				C161EDDC18F31363001B77B4 /* Background09.png in Resources */,
 				C161EDD618F31363001B77B4 /* Background06.png in Resources */,
 				C161EDD118F31363001B77B4 /* Background03@2x.png in Resources */,
+				C12013741937A8D500DE5E98 /* platform.wav in Resources */,
 				C161EDF418F31363001B77B4 /* Background@2x.png in Resources */,
 				C161EDE218F31363001B77B4 /* Background12.png in Resources */,
 				C161EDDA18F31363001B77B4 /* Background08.png in Resources */,
@@ -452,6 +463,7 @@
 				C161EDE518F31363001B77B4 /* Background13@2x.png in Resources */,
 				C161EDE718F31363001B77B4 /* Background14@2x.png in Resources */,
 				C161EDCA18F31363001B77B4 /* Assets.atlas in Resources */,
+				C12013751937A8D500DE5E98 /* star.wav in Resources */,
 				C13E11C918F3102500FCC88A /* InfoPlist.strings in Resources */,
 				C161EDD518F31363001B77B4 /* Background05@2x.png in Resources */,
 				C161EDCD18F31363001B77B4 /* Background01@2x.png in Resources */,

@@ -353,30 +353,6 @@ bool moveLeft = FALSE;
     
     return node;
 }
-/*
-- (StarNode *) createStarAtPosition:(CGPoint)position ofType:(StarType)type
-{
-    StarNode *node = [StarNode node];
-    [node setPosition:position];
-    [node setName:@"NODE_STAR"];
-    [node setStarType:type];
-    
-    SKSpriteNode *sprite;
-    if (type == STAR_SPECIAL) {
-        sprite = [SKSpriteNode spriteNodeWithImageNamed:@"StarSpecial"];
-    } else {
-        sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Star"];
-    }
-    [node addChild:sprite];
-    
-    node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:sprite.size.width/2];
-    node.physicsBody.dynamic = NO;
-    
-    node.physicsBody.categoryBitMask = CollisionCategoryStar;
-    node.physicsBody.collisionBitMask = 0;
-    
-    return node;
-}*/
 
 - (PlatformNode *) createPlatformAtPosition:(CGPoint)position ofType:(PlatformType)type
 {

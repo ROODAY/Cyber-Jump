@@ -220,7 +220,7 @@ bool moveLeft = FALSE;
         _lblBoosts = [SKLabelNode labelNodeWithFontNamed:@"ChalkboardSE-Bold"];
         _lblBoosts.fontSize = 15;
         _lblBoosts.fontColor = [SKColor whiteColor];
-        _lblBoosts.position = CGPointMake(320, 50);
+        _lblBoosts.position = CGPointMake(320, 55);
         _lblBoosts.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
         [_lblBoosts setText:[NSString stringWithFormat:@"Boosts: %d", [GameState sharedInstance].boostsLeft]];
         [_hudNode addChild:_lblBoosts];
@@ -323,25 +323,33 @@ bool moveLeft = FALSE;
     [node setPosition:position];
     if (type == 0) {
         [node setName:@"NODE_BOOST"];
+        [node setPowerUpType:type];
         SKSpriteNode *sprite;
         sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Boost"];
         [node addChild:sprite];
         node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:sprite.size.width/2];
+        NSLog(@"Boost made");
     } else if (type == 1) {
         [node setName:@"NODE_JETPACK"];
+        [node setPowerUpType:type];
         SKSpriteNode *sprite;
-        sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Boost"];
+        sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Jetpack"];
         [node addChild:sprite];
         node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:sprite.size.width/2];
+        NSLog(@"Jetpack made");
     } else if (type == 2) {
         [node setName:@"NODE_STAR"];
+        [node setPowerUpType:type];
         int starType = arc4random_uniform(2);
+        NSLog(@"%i", starType);
         [node setStarType:starType];
         SKSpriteNode *sprite;
-        if (type == STAR_SPECIAL) {
+        if (starType == 1) {
             sprite = [SKSpriteNode spriteNodeWithImageNamed:@"StarSpecial"];
+            NSLog(@"Special Star Made");
         } else {
             sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Star"];
+            NSLog(@"Star Made");
         }
         [node addChild:sprite];
         node.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:sprite.size.width/2];

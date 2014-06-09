@@ -28,6 +28,8 @@ typedef NS_OPTIONS(uint32_t, CollisionCategory) {
     SKNode *_hudNode;
     SKNode *_player;
     
+    SKAction *_boostSound;
+    
     SKSpriteNode *_tapToStartNode;
     SKSpriteNode *_boostButton;
     SKSpriteNode *_dpad;
@@ -71,6 +73,7 @@ bool moveLeft = FALSE;
     if (self = [super initWithSize:size]) {
         self.backgroundColor = [SKColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
         _maxPlayerY = 80;
+        _boostSound = [SKAction playSoundFileNamed:@"boost.wav" waitForCompletion:NO];
         [GameState sharedInstance].boostsLeft = 3;
         [GameState sharedInstance].score = 0;
         [GameState sharedInstance].stars = 0;
@@ -535,6 +538,7 @@ bool moveLeft = FALSE;
     if ([node.name isEqualToString:@"boostButton"] && ([GameState sharedInstance].boostsLeft > 0)) {
         _player.physicsBody.velocity = CGVectorMake(_player.physicsBody.velocity.dx, 750.0f);
         [GameState sharedInstance].boostsLeft--;
+        [self runAction:_boostSound];
     }
     
     if ([node.name isEqualToString:@"dpad"]) {
